@@ -25,5 +25,7 @@ namespace WebFrameworksGroupCA2Project.Models
         [ForeignKey("ArtistId")]
         public Artist? Artist { get; set; }
 
+        public List<PlaylistSong>? PlaylistSongs { get; set; }
+
     }
 }

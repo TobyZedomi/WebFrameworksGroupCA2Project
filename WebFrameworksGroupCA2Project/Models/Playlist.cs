@@ -20,6 +20,8 @@ namespace WebFrameworksGroupCA2Project.Models
         [ForeignKey("UserId")]
         public AppUser? AppUser { get; set; }
 
+        public List<PlaylistSong>? PlaylistSongs { get; set; }
+
 
     }
 }
