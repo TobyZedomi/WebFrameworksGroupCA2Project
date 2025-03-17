@@ -3,9 +3,8 @@ using WebFrameworksGroupCA2Project.Models;
 
 namespace WebFrameworksGroupCA2Project.DTOs
 {
-    public class ArtistGetDTO
+    public class ArtistPostDTO
     {
-
 
         [Key]
         public int Id { get; set; }
@@ -16,11 +15,13 @@ namespace WebFrameworksGroupCA2Project.DTOs
         [RegularExpression(@"^[A-Z]+[a-zA-Z&/\s]*$", ErrorMessage = "Genre must start ith a capital letter and have 30 characters maximum. Only special characters allowed is &/"), Required, StringLength(30)]
         public string Genre { get; set; }
 
+
         [RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$", ErrorMessage = "Birth Country must start with a capital letter and have 50 characters maximum"), Required, StringLength(50)]
         public string BirthCountry { get; set; }
 
         [DataType(DataType.MultilineText)]
         public string Overview { get; set; }
+        public IFormFile? ImageFile { get; set; }
 
         public List<Song>? Song { get; set; }
     }
