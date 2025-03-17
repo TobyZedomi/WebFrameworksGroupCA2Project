@@ -1,65 +1,67 @@
-﻿@model IEnumerable<WebFrameworksGroupCA2Project.Models.Artist>
+﻿@model WebFrameworksGroupCA2Project.Models.ArtistGenreViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> userManager
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<link rel="stylesheet" href="~/css/artistIndex.css" asp-append-version="true" />
 
+<div class="text-center">
+    <h1 style="font-weight: bold;">Artist</h1>
+</div>
+
+
+ @if (User.IsInRole("Admin")) {
+     <div class="button-group">
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Add New Artist to the system</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ArtistName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirthCountry)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateOfBirth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Overview)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageFileName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ArtistName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BirthCountry)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateOfBirth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Overview)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageFileName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+
+</div>
+ }
+
+
+<form asp-controller="Artists" asp-action="Index" method="get">
+    <p>
+
+        <select style="font-weight: bold;" asp-for="ArtistGenre" asp-items="Model.Genres">
+            <option style="font-weight: bold;" value="">All Music Genres</option>
+        </select>
+
+        <label style="font-weight: bold;">Artist Name: <input type="text" asp-for="SearchString" placeholder="Enter Artist Name here" /></label>
+        <input class="btn btn-primary" type="submit" value="Filter" />
+    </p>
+</form>
+
+<div class="card-container">
+@foreach (var item in Model.Artists!) {
+   
+                <div class="card">
+            <img src="/images/@item.ImageFileName" />
+                    <div class="card-content">
+                <h3> @Html.DisplayFor(modelItem => item.ArtistName)</h3>
+                <p>  @Html.DisplayFor(modelItem => item.Overview)</p>
+
+                @if (User.IsInRole("Admin")) {
+                <a asp-action="Edit" class="btn btn-danger" asp-route-id="@item.Id">Edit</a> 
+
+                }
+                <a asp-action="Details" class="btn btn-danger" asp-route-id="@item.Id">Details</a> 
+
+                @if (User.IsInRole("Admin")) {
+                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Delete</a>
+
+                }
+                    </div>
+            <div class="card-footer" style="background-color: #f0f0f0; font-weight: bold; margin: auto;">
+                <small class="text-muted">
+                    @Html.DisplayFor(modelItem => item.Genre) Artist
+                </small>
+            </div>
+                </div>
 }
-    </tbody>
-</table>
+        </div>
+    
