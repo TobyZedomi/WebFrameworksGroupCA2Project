@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WebFrameworksGroupCA2Project.Data;
+using WebFrameworksGroupCA2Project.Models;
 
 public class Program
 {
@@ -9,6 +11,22 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddDbContext<WebFrameworksGroupCA2ProjectContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("WebFrameworksGroupCA2ProjectContext") ?? throw new InvalidOperationException("Connection string 'WebFrameworksGroupCA2ProjectContext' not found.")));
+
+        builder.Services.AddIdentity<AppUser, IdentityRole>(
+        options =>
+
+        {
+            options.Password.RequiredUniqueChars = 0;
+            options.Password.RequireUppercase = true;
+            options.Password.RequiredLength = 8;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireLowercase = false;
+        })
+        .AddRoles<IdentityRole>()
+        .AddEntityFrameworkStores<WebFrameworksGroupCA2ProjectContext>().AddDefaultTokenProviders();
+
+
+
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
@@ -32,8 +50,7 @@ public class Program
 
         app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}")
-            .WithStaticAssets();
+            pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
         app.Run();
