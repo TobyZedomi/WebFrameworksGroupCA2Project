@@ -1,0 +1,35 @@
+﻿@model IEnumerable<WebFrameworksGroupCA2Project.Models.Playlist>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<link rel="stylesheet" href="~/css/playlistIndex.css" asp-append-version="true" />
+
+
+
+<div class="text-center">
+<h1 style="font-weight: bold;">All Public Playlist</h1>
+</div>
+
+<div class="button-group">
+<p>
+    <a class="btn btn-primary" asp-action="Index">View Only Your Playlist</a>
+</p>
+</div>
+
+
+<div class="card-container">
+    @foreach (var item in Model)
+    {
+
+        <div class="card">
+            <img src="/images/@item.ImageFileName" />
+            <div class="card-content">
+                <h3> @Html.DisplayFor(modelItem => item.PlaylistName)</h3>
+                <a class="btn btn-danger" style="font-size: 12px;" asp-action="GetAllSongsInPlaylist2" asp-route-id="@item.Id">View Songs</a>
+            </div>
+            
+        </div>
+    }
+</div>

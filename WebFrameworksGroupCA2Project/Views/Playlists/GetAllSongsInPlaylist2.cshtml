@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebFrameworksGroupCA2Project.Models.PlaylistSong>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="text-center">
+<h1 style="font-weight: bold;">Songs for Playlist</h1>
+</div>
+
+
+<p>
+    <a class="btn btn-primary" asp-action="GetAllPlaylistInTheSystem">Go back to View All Public Playlist</a>
+</p>
+
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Playlist)Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Song)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Playlist.PlaylistName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Song.SongName)
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>

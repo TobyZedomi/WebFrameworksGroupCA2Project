@@ -1,53 +1,53 @@
 ﻿@model IEnumerable<WebFrameworksGroupCA2Project.Models.Playlist>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> signInManager
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<link rel="stylesheet" href="~/css/playlistIndex.css" asp-append-version="true" />
+
+<div class="text-center">
+<h1 style="font-weight: bold;">
+  Playlist created by  @User.Identity!.Name
+</h1>
+</div>
+
+<div class="button-group">
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create a New Playlist</a>
+</p>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="GetAllPlaylistInTheSystem">View All Public Playlist</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PlaylistName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StatusPrivate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageFileName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AppUser)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PlaylistName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StatusPrivate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageFileName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AppUser.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+</div>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="card-container">
+    @foreach (var item in Model)
+    {
+
+        <div class="card">
+            <img src="/images/@item.ImageFileName" />
+            <div class="card-content">
+                <h3> @Html.DisplayFor(modelItem => item.PlaylistName)</h3>
+
+
+                <a class="btn btn-danger" style="font-size: 12px;" asp-action="GetAllSongsInPlaylist" asp-route-id="@item.Id">View Songs</a> 
+                <a class="btn btn-danger" style="font-size: 12px;" asp-action="CreatePlaylistSong" asp-route-id="@item.Id">Add Song</a> 
+                <a class="btn btn-danger" style="font-size: 12px;" asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                <a class="btn btn-danger" style="font-size: 12px; margin-top: 2px;" asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                <a class="btn btn-danger" style="font-size: 12px;" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </div>
+            <div class="card-footer" style="background-color: #f0f0f0; font-weight: bold; margin: auto;">
+                <small class="text-muted">
+                   StatusPrivate: @Html.DisplayFor(modelItem => item.StatusPrivate)
+                </small>
+            </div>
+        </div>
+    }
+</div>
