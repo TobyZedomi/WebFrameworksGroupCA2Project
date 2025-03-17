@@ -53,6 +53,54 @@ public class Program
             pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            var roles = new[] { "Admin", "User" };
+
+            foreach (var role in roles)
+            {
+
+                if (!await roleManager.RoleExistsAsync(role))
+                    await roleManager.CreateAsync(new IdentityRole(role));
+            }
+        }
+
+
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+
+            string name = "admin";
+            string email = "admin@gmail.com";
+            string password = "Admin123@";
+            string address = "dublin";
+
+            if (await userManager.FindByEmailAsync(email) == null)
+            {
+
+                AppUser user = new()
+                {
+                    Name = name,
+                    UserName = name,
+                    Email = email,
+                    Address = address,
+                };
+
+
+                await userManager.CreateAsync(user, password!);
+
+                var Admin = new[] { "Admin" };
+
+
+                await userManager.AddToRolesAsync(user, Admin);
+            }
+        }
+
+
         app.Run();
 
         }
