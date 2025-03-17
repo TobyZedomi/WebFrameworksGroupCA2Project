@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,13 +8,15 @@
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebFrameworksGroupCA2Project.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebFrameworksGroupCA2.styles.css" asp-append-version="true" />
 </head>
 <body>
+
+    <div id="background"></div>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebFrameworksGroupCA2Project</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Music</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -24,8 +27,21 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Artists" asp-action="Index">Artist</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Songs" asp-action="Index">Songs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Playlists" asp-action="Index">Playlist</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Ratings" asp-action="Index">Rating</a>
+                        </li>
+                        <!---
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="PlaylistSongs" asp-action="Index">Playlist Songs</a>
+                        </li>-->
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -38,10 +54,10 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - WebFrameworksGroupCA2Project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+    <!---<footer class="border-top footer text-muted">
+        <div class="container" style="color: white; font-weight: bold;">
+            &copy; 2025 - Music
+        </div>-->
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
