@@ -1,8 +1,11 @@
-﻿@{
+﻿﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> signInManager
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4" style="color: white; font-weight: bold;">Welcome</h1>
+    <p style="color: white; font-weight: bold;">You are loggged in @User.Identity!.Name!</p>
 </div>
