@@ -27,5 +27,6 @@ namespace WebFrameworksGroupCA2Project.Models
 
         public List<PlaylistSong>? PlaylistSongs { get; set; }
 
+        public List<Rating>? Ratings { get; set; }
     }
 }

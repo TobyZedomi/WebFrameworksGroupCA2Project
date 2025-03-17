@@ -19,5 +19,6 @@ namespace WebFrameworksGroupCA2Project.Data
         public DbSet<WebFrameworksGroupCA2Project.Models.Song> Song { get; set; } = default!;
         public DbSet<WebFrameworksGroupCA2Project.Models.Playlist> Playlist { get; set; } = default!;
         public DbSet<WebFrameworksGroupCA2Project.Models.PlaylistSong> PlaylistSong { get; set; } = default!;
+        public DbSet<WebFrameworksGroupCA2Project.Models.Rating> Rating { get; set; } = default!;
     }
 }

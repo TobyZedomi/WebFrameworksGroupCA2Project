@@ -14,5 +14,7 @@ namespace WebFrameworksGroupCA2Project.Models
         public string? Address { get; set; }
 
         public List<Playlist>? Playlists { get; set; }
+
+        public List<Rating>? Ratings { get; set; }
     }
 }
