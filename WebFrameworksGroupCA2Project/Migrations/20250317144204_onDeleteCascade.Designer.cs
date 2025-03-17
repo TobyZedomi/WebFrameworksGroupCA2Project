@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebFrameworksGroupCA2Project.Data;
 
@@ -11,9 +12,11 @@ using WebFrameworksGroupCA2Project.Data;
 namespace WebFrameworksGroupCA2Project.Migrations
 {
     [DbContext(typeof(WebFrameworksGroupCA2ProjectContext))]
-    partial class WebFrameworksGroupCA2ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20250317144204_onDeleteCascade")]
+    partial class onDeleteCascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,58 +268,6 @@ namespace WebFrameworksGroupCA2Project.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Artist");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ArtistName = "Jimi Hendrix",
-                            BirthCountry = "America",
-                            DateOfBirth = new DateTime(1952, 12, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Genre = "Rock",
-                            ImageFileName = "jimihendrix.jpg",
-                            Overview = "An American guirtist and singer who is normally regarded as the greatest guitarist in music."
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ArtistName = "Kendrick Lamar",
-                            BirthCountry = "America",
-                            DateOfBirth = new DateTime(1987, 10, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Genre = "Hip Hop",
-                            ImageFileName = "kendricklamar.jpg",
-                            Overview = "Regarded as one of the gretaest rappers ever, that has timeless classic albums."
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ArtistName = "Adele",
-                            BirthCountry = "England",
-                            DateOfBirth = new DateTime(1990, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Genre = "Pop",
-                            ImageFileName = "adele.jpg",
-                            Overview = "A super talaneted singer with varouos hits like Hello, Someone Like You and Rolling In The Deep."
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ArtistName = "Prince",
-                            BirthCountry = "America",
-                            DateOfBirth = new DateTime(1958, 6, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Genre = "R&B/Soul",
-                            ImageFileName = "prince.jpg",
-                            Overview = "Arguabaly the most taleneted artist ever. He can do it all sing, dance and play up to 27 instruments perfectly."
-                        },
-                        new
-                        {
-                            Id = 5,
-                            ArtistName = "David Bowie",
-                            BirthCountry = "England",
-                            DateOfBirth = new DateTime(1947, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Genre = "Rock",
-                            ImageFileName = "davidbowie.jpg",
-                            Overview = "The man who created the album Ziggy Stardust."
-                        });
                 });
 
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Playlist", b =>
@@ -433,62 +384,6 @@ namespace WebFrameworksGroupCA2Project.Migrations
                     b.HasIndex("ArtistId");
 
                     b.ToTable("Song");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ArtistId = 1,
-                            DateOfRelease = new DateTime(1967, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageFileName = "allalongthewatchtower.jpg",
-                            SongDescription = "A classic cover of Bob Dylans song where Jimi Hnedrix made the song his.",
-                            SongName = "All Along The WatchTower"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ArtistId = 2,
-                            DateOfRelease = new DateTime(2015, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageFileName = "i.jpg",
-                            SongDescription = "The lead single for his classic album To Pimp A Butterly",
-                            SongName = "i"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ArtistId = 3,
-                            DateOfRelease = new DateTime(2021, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageFileName = "easyonme.jpg",
-                            SongDescription = "Adeles come back song after a 6 year hiatus.",
-                            SongName = "Easy On Me"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ArtistId = 4,
-                            DateOfRelease = new DateTime(1984, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageFileName = "purplerain.jpg",
-                            SongDescription = "AThe most iconic Prince song",
-                            SongName = "Purple Rain"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            ArtistId = 4,
-                            DateOfRelease = new DateTime(1987, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageFileName = "signothetimes.jpg",
-                            SongDescription = "An era that people consider where Prince was at his best musically",
-                            SongName = "Sign O the Times"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            ArtistId = 5,
-                            DateOfRelease = new DateTime(1972, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageFileName = "starman.jpg",
-                            SongDescription = "David Bowie at the peak of his music career with a life changing song.",
-                            SongName = "Starman"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
