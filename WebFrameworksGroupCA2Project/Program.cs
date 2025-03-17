@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using WebFrameworksGroupCA2Project.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<WebFrameworksGroupCA2ProjectContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("WebFrameworksGroupCA2ProjectContext") ?? throw new InvalidOperationException("Connection string 'WebFrameworksGroupCA2ProjectContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
