@@ -3,9 +3,8 @@ using WebFrameworksGroupCA2Project.Models;
 
 namespace WebFrameworksGroupCA2Project.DTOs
 {
-    public class ArtistGetDTO
+    public class ArtistPutDTO
     {
-
 
         [Key]
         public int Id { get; set; }
@@ -21,6 +20,8 @@ namespace WebFrameworksGroupCA2Project.DTOs
 
         [DataType(DataType.MultilineText)]
         public string Overview { get; set; }
+
+        public IFormFile? ImageFile { get; set; }
 
         public List<Song>? Song { get; set; }
     }
