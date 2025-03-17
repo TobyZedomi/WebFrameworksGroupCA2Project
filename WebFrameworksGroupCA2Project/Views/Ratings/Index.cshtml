@@ -9,6 +9,11 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<p>
+    <a class="btn btn-primary" asp-action="ViewAllRatings">View All Ratings</a>
+</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -37,7 +42,7 @@
                 @Html.DisplayFor(modelItem => item.Comment)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
+                @Html.DisplayFor(modelItem => item.User.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Song.SongName)
