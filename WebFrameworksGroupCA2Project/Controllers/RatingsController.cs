@@ -130,8 +130,18 @@ namespace WebFrameworksGroupCA2Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserRating,Comment,UserId,SongId")] Rating rating)
+        public async Task<IActionResult> Edit(int id,RatingPostDTO ratingDTO)
         {
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+            Rating rating = new Rating()
+            {
+                UserRating = ratingDTO.UserRating,
+                Comment = ratingDTO.Comment,
+                UserId = userId,
+                SongId = ratingDTO.SongId
+
+            };
             if (id != rating.Id)
             {
                 return NotFound();
