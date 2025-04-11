@@ -27,6 +27,8 @@ namespace WebFrameworksGroupCA2Project.Models
 
         public List<Song>? Song { get; set; }
 
+        public List<VinylStore>? VinylStore { get; set; }
+
 
     }
 }

@@ -22,7 +22,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="TestProject"/>
+		<InternalsVisibleTo Include="TestProject" />
 	</ItemGroup>
 
 </Project>
