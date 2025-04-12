@@ -21,6 +21,9 @@ namespace WebFrameworksGroupCA2Project.Data
         public DbSet<WebFrameworksGroupCA2Project.Models.Playlist> Playlist { get; set; } = default!;
         public DbSet<WebFrameworksGroupCA2Project.Models.PlaylistSong> PlaylistSong { get; set; } = default!;
         public DbSet<WebFrameworksGroupCA2Project.Models.Rating> Rating { get; set; } = default!;
+        public DbSet<WebFrameworksGroupCA2Project.Models.Vinyl> Vinyl { get; set; } = default!;
+        public DbSet<WebFrameworksGroupCA2Project.Models.Stock> Stock { get; set; } = default!;
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -170,10 +173,108 @@ namespace WebFrameworksGroupCA2Project.Data
 
                 );
 
+
+            modelBuilder.Entity<Vinyl>().HasData(
+               
+                new Vinyl()
+                {
+                    Id = 1,
+                    VinylName = "Electric Ladyland",
+                    DateOfRelease = new DateTime(1968, 08, 22),
+                    VinylInfo = "The third studio album by the artist Jimi Hnedrix",
+                    ListPrice = 30,
+                    ImageFileName = "EL.jpg",
+                    ArtistId = 1
+                },
+
+                new Vinyl()
+                {
+                    Id = 2,
+                    VinylName = "To Pimp A Butterfly",
+                    DateOfRelease = new DateTime(2015, 03, 15),
+                    VinylInfo = "The third studio album by the artist Kendrick Lamar",
+                    ListPrice = 30,
+                    ImageFileName = "tpab.jpg",
+                    ArtistId = 2
+                },
+
+                 new Vinyl()
+                 {
+                     Id = 3,
+                     VinylName = "30",
+                     DateOfRelease = new DateTime(2015, 11, 25),
+                     VinylInfo = "The comeback studio album by the artist Adele",
+                     ListPrice = 20,
+                     ImageFileName = "30.jpg",
+                     ArtistId = 3
+                 },
+
+                  new Vinyl()
+                  {
+                      Id = 4,
+                      VinylName = "Purple Rain",
+                      DateOfRelease = new DateTime(1984, 09, 12),
+                      VinylInfo = "The most popular album by the artist Prince",
+                      ListPrice = 40,
+                      ImageFileName = "pr.jpg",
+                      ArtistId = 4
+                  },
+
+                  new Vinyl()
+                  {
+                      Id = 5,
+                      VinylName = "Ziggy Stardust",
+                      DateOfRelease = new DateTime(1973, 06, 09),
+                      VinylInfo = "The most popular album by the artist David Bowie",
+                      ListPrice = 20,
+                      ImageFileName = "ZiggyStardust.jpg",
+                      ArtistId = 5
+                  }
+                );
+
+
+            modelBuilder.Entity<Stock>().HasData(
+
+                new Stock()
+                {
+                    Id = 1,
+                    Quantity = 50,
+                    VinylId = 1
+                },
+
+                new Stock()
+                {
+                    Id = 2,
+                    Quantity = 5,
+                    VinylId = 2
+                },
+
+                new Stock()
+                {
+                    Id = 3,
+                    Quantity = 50,
+                    VinylId = 3
+                },
+
+                new Stock()
+                {
+                    Id = 4,
+                    Quantity = 50,
+                    VinylId = 4
+                },
+
+                new Stock()
+                {
+                    Id = 5,
+                    Quantity = 10,
+                    VinylId = 5
+                }
+
+                );
+
             base.OnModelCreating(modelBuilder);
         }
-        public DbSet<WebFrameworksGroupCA2Project.Models.Vinyl> Vinyl { get; set; } = default!;
-        public DbSet<WebFrameworksGroupCA2Project.Models.Stock> Stock { get; set; } = default!;
+       
 
     }
 

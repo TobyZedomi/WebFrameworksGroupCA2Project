@@ -4,7 +4,7 @@ using WebFrameworksGroupCA2Project.Models;
 
 namespace WebFrameworksGroupCA2Project.DTOs
 {
-    public class VinylPostDTO
+    public class VinylPutDTO
     {
 
         [Key]
@@ -26,6 +26,5 @@ namespace WebFrameworksGroupCA2Project.DTOs
         public int? ArtistId { get; set; }
         [ForeignKey("ArtistId")]
         public Artist? Artist { get; set; }
-
     }
 }
