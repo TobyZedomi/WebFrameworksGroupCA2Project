@@ -8,45 +8,54 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Artist</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ArtistName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ArtistName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Genre)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Genre)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BirthCountry)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BirthCountry)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Overview)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Overview)
-        </dd>
-
-    </dl>
-</div>
-<div>
-    @if (User.IsInRole("Admin"))
-    {
-        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
-
+<style>
+    .transparent-bg {
+        background-color: rgba(84, 79, 79, 0.64); 
+        padding: 40px; 
+        border-radius: 8px; 
     }
-    <a asp-action="Index">Back to List</a>
+</style>
+
+<head>
+    <!-- Add Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+
+<div class="container py-4">
+    <div class="transparent-bg">
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="d-flex justify-content-center">
+                    <img src="/images/@Model.ImageFileName" class="rounded-circle img-fluid shadow-lg mt-2" style="height: 300px; width: 300px; object-fit: cover;" alt="@Model.ArtistName" />
+                </div>
+            </div>
+            <div class="col-md-8">
+                <h1 class="fw-bold mb-4">@Model.ArtistName</h1>
+                <dl class="row">
+                    <dt class="col-sm-3">
+                        <i class="fas fa-music"></i> Genre:
+                    </dt>
+                    <dd class="col-sm-9 fw-normal">@Model.Genre</dd>
+
+                    <dt class="col-sm-3">
+                        <i class="fas fa-globe-americas"></i> Born in:
+                    </dt>
+                    <dd class="col-sm-9 fw-normal">@Model.BirthCountry</dd>
+
+                    <dt class="col-sm-3">
+                        <i class="fas fa-info-circle"></i> Overview:
+                    </dt>
+                    <dd class="col-sm-9 fw-normal">@Model.Overview</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            @if (User.IsInRole("Admin")) {
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning btn-sm">Edit</a>
+            }
+            <a asp-action="Index" class="btn btn-secondary btn-sm">Back to List</a>
+        </div>
+    </div>
 </div>

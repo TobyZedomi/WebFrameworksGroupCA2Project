@@ -4,64 +4,71 @@
 @inject UserManager<AppUser> userManager
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Artists";
 }
 
-<link rel="stylesheet" href="~/css/artistIndex.css" asp-append-version="true" />
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold text-light d-flex align-items-center">
+            <img src="https://img.icons8.com/?size=150&id=Q1AgimINz4K7&format=png&color=e6ebe7" alt="Music Artist Icon"
+                 width="32" height="32" class="me-2">
+            Artists
+        </h1>
 
-<div class="text-center">
-    <h1 style="font-weight: bold;">Artist</h1>
-</div>
+        @if (User.IsInRole("Admin")) {
+            <a asp-action="Create" class="btn btn-success">+ Add New Artist</a>
+        }
+    </div>
 
-
- @if (User.IsInRole("Admin")) {
-     <div class="button-group">
-<p>
-    <a asp-action="Create" class="btn btn-primary">Add New Artist to the system</a>
-</p>
-
-</div>
- }
-
-
-<form asp-controller="Artists" asp-action="Index" method="get">
-    <p>
-
-        <select style="font-weight: bold;" asp-for="ArtistGenre" asp-items="Model.Genres">
-            <option style="font-weight: bold;" value="">All Music Genres</option>
-        </select>
-
-        <label style="font-weight: bold;">Artist Name: <input type="text" asp-for="SearchString" placeholder="Enter Artist Name here" /></label>
-        <input class="btn btn-primary" type="submit" value="Filter" />
-    </p>
-</form>
-
-<div class="card-container">
-@foreach (var item in Model.Artists!) {
-   
-                <div class="card">
-            <img src="/images/@item.ImageFileName" />
-                    <div class="card-content">
-                <h3> @Html.DisplayFor(modelItem => item.ArtistName)</h3>
-                <p>  @Html.DisplayFor(modelItem => item.Overview)</p>
-
-                @if (User.IsInRole("Admin")) {
-                <a asp-action="Edit" class="btn btn-danger" asp-route-id="@item.Id">Edit</a> 
-
-                }
-                <a asp-action="Details" class="btn btn-danger" asp-route-id="@item.Id">Details</a> 
-
-                @if (User.IsInRole("Admin")) {
-                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Delete</a>
-
-                }
-                    </div>
-            <div class="card-footer" style="background-color: #f0f0f0; font-weight: bold; margin: auto;">
-                <small class="text-muted">
-                    @Html.DisplayFor(modelItem => item.Genre) Artist
-                </small>
-            </div>
-                </div>
-}
+    <form asp-controller="Artists" asp-action="Index" method="get" class="row g-2 mb-4 align-items-center">
+        <div class="col-md-3">
+            <select asp-for="ArtistGenre" asp-items="Model.Genres" class="form-select fw-semibold">
+                <option value="">All Genres</option>
+            </select>
         </div>
-    
+        <div class="col-md-5">
+            <input type="text" asp-for="SearchString" class="form-control" placeholder="Search artist name..."/>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+    </form>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        @foreach (var item in Model.Artists!) {
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg ">
+
+                    <div class="blur-background-container mx-auto">
+
+                        <img src="/images/@item.ImageFileName"
+                             class="rounded-circle card-img-top img-fluid shadow-lg mt-2 shadow-lg p-1 mb-5"
+                             style="height: 220px; width: 220px; object-fit: cover;" alt="@item.ArtistName"/>
+                    </div>
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="card-title fw-semibold">@item.ArtistName</h5>
+                            <p class="card-text text-muted small">@item.Overview</p>
+                        </div>
+                        <div class="mt-2">
+                            <span class="badge bg-dark">@item.Genre</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white d-flex justify-content-between border-0 pt-0">
+                        <a asp-action="Details" asp-route-id="@item.Id"
+                           class="btn btn-outline-primary btn-sm">Details</a>
+                        @if (User.IsInRole("Admin")) {
+                            <div class="btn-group">
+                                <a asp-action="Edit" asp-route-id="@item.Id"
+                                   class="btn btn-outline-warning btn-sm">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">Delete</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+

@@ -21,6 +21,8 @@ namespace WebFrameworksGroupCA2Project.DTOs
 
         [DataType(DataType.MultilineText)]
         public string Overview { get; set; }
+        
+        public string ImageFileName { get; set; }
 
         public List<Song>? Song { get; set; }
 
