@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WebFrameworksGroupCA2Project.Data;
 using WebFrameworksGroupCA2Project.Models;
 
 
@@ -7,12 +8,16 @@ namespace WebFrameworksGroupCA2Project.Controllers
 {
     public class AccountController : Controller
     {
+
+        private readonly WebFrameworksGroupCA2ProjectContext _context;
+
         private readonly SignInManager<AppUser> signInManager;
 
         private readonly UserManager<AppUser> userManager;
 
-        public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
+        public AccountController(WebFrameworksGroupCA2ProjectContext context, SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
         {
+            _context = context;
             this.signInManager = signInManager;
             this.userManager = userManager;
         }

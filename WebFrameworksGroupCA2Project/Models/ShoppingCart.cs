@@ -15,5 +15,7 @@ namespace WebFrameworksGroupCA2Project.Models
         public string? UserId { get; set; }
         [ForeignKey("UserId")]
         public AppUser? AppUser { get; set; }
+
+        public List<CartInfo>? CartInfos { get; set; }
     }
 }

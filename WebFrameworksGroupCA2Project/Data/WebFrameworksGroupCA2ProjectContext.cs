@@ -274,6 +274,8 @@ namespace WebFrameworksGroupCA2Project.Data
 
             base.OnModelCreating(modelBuilder);
         }
+        public DbSet<WebFrameworksGroupCA2Project.Models.ShoppingCart> ShoppingCart { get; set; } = default!;
+        public DbSet<WebFrameworksGroupCA2Project.Models.CartInfo> CartInfo { get; set; } = default!;
        
 
     }
