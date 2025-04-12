@@ -120,7 +120,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
             {
                 // If the user does not exist, allow them to register
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                var fullName = info.Principal.FindFirstValue(ClaimTypes.Name); // Get the full name from Google (e.g., "Дмитрий Драган")
+                var fullName = info.Principal.FindFirstValue(ClaimTypes.Name); 
 
                 // Replace any non-alphanumeric characters (e.g., spaces, punctuation) and convert to a valid username
                 var validUsername = new string(fullName.Where(c => Char.IsLetterOrDigit(c)).ToArray());
