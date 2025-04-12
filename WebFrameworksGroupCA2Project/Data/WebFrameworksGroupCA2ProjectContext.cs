@@ -172,7 +172,8 @@ namespace WebFrameworksGroupCA2Project.Data
 
             base.OnModelCreating(modelBuilder);
         }
-        public DbSet<WebFrameworksGroupCA2Project.Models.VinylStore> VinylStore { get; set; } = default!;
+        public DbSet<WebFrameworksGroupCA2Project.Models.Vinyl> Vinyl { get; set; } = default!;
+        public DbSet<WebFrameworksGroupCA2Project.Models.Stock> Stock { get; set; } = default!;
 
     }
 

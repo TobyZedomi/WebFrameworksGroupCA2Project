@@ -10,23 +10,23 @@ using WebFrameworksGroupCA2Project.Models;
 
 namespace WebFrameworksGroupCA2Project.Controllers
 {
-    public class VinylStoresController : Controller
+    public class VinylsController : Controller
     {
         private readonly WebFrameworksGroupCA2ProjectContext _context;
 
-        public VinylStoresController(WebFrameworksGroupCA2ProjectContext context)
+        public VinylsController(WebFrameworksGroupCA2ProjectContext context)
         {
             _context = context;
         }
 
-        // GET: VinylStores
+        // GET: Vinyls
         public async Task<IActionResult> Index()
         {
-            var webFrameworksGroupCA2ProjectContext = _context.VinylStore.Include(v => v.Artist);
+            var webFrameworksGroupCA2ProjectContext = _context.Vinyl.Include(v => v.Artist);
             return View(await webFrameworksGroupCA2ProjectContext.ToListAsync());
         }
 
-        // GET: VinylStores/Details/5
+        // GET: Vinyls/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +34,42 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 return NotFound();
             }
 
-            var vinylStore = await _context.VinylStore
+            var vinyl = await _context.Vinyl
                 .Include(v => v.Artist)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (vinylStore == null)
+            if (vinyl == null)
             {
                 return NotFound();
             }
 
-            return View(vinylStore);
+            return View(vinyl);
         }
 
-        // GET: VinylStores/Create
+        // GET: Vinyls/Create
         public IActionResult Create()
         {
             ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "ArtistName");
             return View();
         }
 
-        // POST: VinylStores/Create
+        // POST: Vinyls/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,VinylName,DateOfRelease,Quantity,ListPrice,VinylInfo,ImageFileName,ArtistId")] VinylStore vinylStore)
+        public async Task<IActionResult> Create([Bind("Id,VinylName,DateOfRelease,ListPrice,VinylInfo,ImageFileName,ArtistId")] Vinyl vinyl)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vinylStore);
+                _context.Add(vinyl);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "ArtistName", vinylStore.ArtistId);
-            return View(vinylStore);
+            ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "ArtistName", vinyl.ArtistId);
+            return View(vinyl);
         }
 
-        // GET: VinylStores/Edit/5
+        // GET: Vinyls/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +77,23 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 return NotFound();
             }
 
-            var vinylStore = await _context.VinylStore.FindAsync(id);
-            if (vinylStore == null)
+            var vinyl = await _context.Vinyl.FindAsync(id);
+            if (vinyl == null)
             {
                 return NotFound();
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "ArtistName", vinylStore.ArtistId);
-            return View(vinylStore);
+            ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "ArtistName", vinyl.ArtistId);
+            return View(vinyl);
         }
 
-        // POST: VinylStores/Edit/5
+        // POST: Vinyls/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,VinylName,DateOfRelease,Quantity,ListPrice,VinylInfo,ImageFileName,ArtistId")] VinylStore vinylStore)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,VinylName,DateOfRelease,ListPrice,VinylInfo,ImageFileName,ArtistId")] Vinyl vinyl)
         {
-            if (id != vinylStore.Id)
+            if (id != vinyl.Id)
             {
                 return NotFound();
             }
@@ -102,12 +102,12 @@ namespace WebFrameworksGroupCA2Project.Controllers
             {
                 try
                 {
-                    _context.Update(vinylStore);
+                    _context.Update(vinyl);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VinylStoreExists(vinylStore.Id))
+                    if (!VinylExists(vinyl.Id))
                     {
                         return NotFound();
                     }
@@ -118,11 +118,11 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "ArtistName", vinylStore.ArtistId);
-            return View(vinylStore);
+            ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "ArtistName", vinyl.ArtistId);
+            return View(vinyl);
         }
 
-        // GET: VinylStores/Delete/5
+        // GET: Vinyls/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,35 +130,35 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 return NotFound();
             }
 
-            var vinylStore = await _context.VinylStore
+            var vinyl = await _context.Vinyl
                 .Include(v => v.Artist)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (vinylStore == null)
+            if (vinyl == null)
             {
                 return NotFound();
             }
 
-            return View(vinylStore);
+            return View(vinyl);
         }
 
-        // POST: VinylStores/Delete/5
+        // POST: Vinyls/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var vinylStore = await _context.VinylStore.FindAsync(id);
-            if (vinylStore != null)
+            var vinyl = await _context.Vinyl.FindAsync(id);
+            if (vinyl != null)
             {
-                _context.VinylStore.Remove(vinylStore);
+                _context.Vinyl.Remove(vinyl);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool VinylStoreExists(int id)
+        private bool VinylExists(int id)
         {
-            return _context.VinylStore.Any(e => e.Id == id);
+            return _context.Vinyl.Any(e => e.Id == id);
         }
     }
 }

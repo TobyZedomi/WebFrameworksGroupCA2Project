@@ -6,20 +6,19 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebFrameworksGroupCA2Project.Migrations
 {
     /// <inheritdoc />
-    public partial class VinylStore : Migration
+    public partial class Vinyl : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "VinylStore",
+                name: "Vinyl",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     VinylName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     DateOfRelease = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
                     ListPrice = table.Column<double>(type: "float", nullable: false),
                     VinylInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageFileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -27,17 +26,17 @@ namespace WebFrameworksGroupCA2Project.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VinylStore", x => x.Id);
+                    table.PrimaryKey("PK_Vinyl", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VinylStore_Artist_ArtistId",
+                        name: "FK_Vinyl_Artist_ArtistId",
                         column: x => x.ArtistId,
                         principalTable: "Artist",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_VinylStore_ArtistId",
-                table: "VinylStore",
+                name: "IX_Vinyl_ArtistId",
+                table: "Vinyl",
                 column: "ArtistId");
         }
 
@@ -45,7 +44,7 @@ namespace WebFrameworksGroupCA2Project.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "VinylStore");
+                name: "Vinyl");
         }
     }
 }

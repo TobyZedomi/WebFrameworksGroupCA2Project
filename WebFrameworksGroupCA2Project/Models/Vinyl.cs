@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using WebFrameworksGroupCA2Project.Models;
 
-namespace WebFrameworksGroupCA2Project.DTOs
+namespace WebFrameworksGroupCA2Project.Models
 {
-    public class VinylStorePostDTO
+    public class Vinyl
     {
 
         [Key]
@@ -16,17 +15,16 @@ namespace WebFrameworksGroupCA2Project.DTOs
 
         [Display(Name = "DateOfRelease"), DataType(DataType.Date)]
         public DateTime DateOfRelease { get; set; }
-
-        public int Quantity { get; set; }
-
         public double ListPrice { get; set; }
 
         [DataType(DataType.MultilineText)]
         public string? VinylInfo { get; set; }
         public string ImageFileName { get; set; }
-
         public int? ArtistId { get; set; }
         [ForeignKey("ArtistId")]
         public Artist? Artist { get; set; }
+
+        public Stock? Stock { get; set; }
+
     }
 }
