@@ -12,8 +12,8 @@ using WebFrameworksGroupCA2Project.Data;
 namespace WebFrameworksGroupCA2Project.Migrations
 {
     [DbContext(typeof(WebFrameworksGroupCA2ProjectContext))]
-    [Migration("20250411160853_VinylStore")]
-    partial class VinylStore
+    [Migration("20250412131126_Vinyl")]
+    partial class Vinyl
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -494,7 +494,7 @@ namespace WebFrameworksGroupCA2Project.Migrations
                         });
                 });
 
-            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.VinylStore", b =>
+            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Vinyl", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -515,9 +515,6 @@ namespace WebFrameworksGroupCA2Project.Migrations
                     b.Property<double>("ListPrice")
                         .HasColumnType("float");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
                     b.Property<string>("VinylInfo")
                         .HasColumnType("nvarchar(max)");
 
@@ -530,7 +527,7 @@ namespace WebFrameworksGroupCA2Project.Migrations
 
                     b.HasIndex("ArtistId");
 
-                    b.ToTable("VinylStore");
+                    b.ToTable("Vinyl");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -636,10 +633,10 @@ namespace WebFrameworksGroupCA2Project.Migrations
                     b.Navigation("Artist");
                 });
 
-            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.VinylStore", b =>
+            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Vinyl", b =>
                 {
                     b.HasOne("WebFrameworksGroupCA2Project.Models.Artist", "Artist")
-                        .WithMany("VinylStore")
+                        .WithMany("Vinyl")
                         .HasForeignKey("ArtistId");
 
                     b.Navigation("Artist");
@@ -656,7 +653,7 @@ namespace WebFrameworksGroupCA2Project.Migrations
                 {
                     b.Navigation("Song");
 
-                    b.Navigation("VinylStore");
+                    b.Navigation("Vinyl");
                 });
 
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Playlist", b =>
