@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebFrameworksGroupCA2Project.Data;
 using WebFrameworksGroupCA2Project.Models;
@@ -95,6 +96,56 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+        
+        // External login (Google)
+        public IActionResult ExternalLogin(string provider)
+        {
+            var redirectUrl = Url.Action("ExternalLoginCallback", "Account");
+            var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
+
+        // Callback method for Google authentication
+        public async Task<IActionResult> ExternalLoginCallback()
+        {
+            var info = await signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            var result = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+            if (result.Succeeded)
+            {
+                // User is logged in with external provider (Google)
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                // If the user does not exist, allow them to register
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                var fullName = info.Principal.FindFirstValue(ClaimTypes.Name); 
+
+                // Replace any non-alphanumeric characters (e.g., spaces, punctuation) and convert to a valid username
+                var validUsername = new string(fullName.Where(c => Char.IsLetterOrDigit(c)).ToArray());
+                
+                var user = new AppUser { Name = fullName, UserName = validUsername, Email = email };
+
+                var createResult = await userManager.CreateAsync(user);
+                if (createResult.Succeeded)
+                {
+                    await userManager.AddLoginAsync(user, info);
+                    await signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (var error in createResult.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            return View("Login");
         }
     }
 }

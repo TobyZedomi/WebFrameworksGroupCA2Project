@@ -1,3 +1,4 @@
+using DotNetEnv;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +10,10 @@ public class Program
     public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        
+        // Load environment variables
+        Env.Load();
+        
         builder.Services.AddDbContext<WebFrameworksGroupCA2ProjectContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("WebFrameworksGroupCA2ProjectContext") ?? throw new InvalidOperationException("Connection string 'WebFrameworksGroupCA2ProjectContext' not found.")));
 
@@ -23,9 +28,23 @@ public class Program
             options.Password.RequireLowercase = false;
         })
         .AddRoles<IdentityRole>()
-        .AddEntityFrameworkStores<WebFrameworksGroupCA2ProjectContext>().AddDefaultTokenProviders();
+        .AddEntityFrameworkStores<WebFrameworksGroupCA2ProjectContext>()
+        .AddDefaultTokenProviders();
 
 
+        // Add social login providers (Google and Microsoft)
+        builder.Services.AddAuthentication()
+            .AddGoogle(options =>
+            {
+                options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
+                options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
+            })
+            .AddMicrosoftAccount(options =>
+            {
+                options.ClientId = Environment.GetEnvironmentVariable("MICROSOFT_CLIENT_ID");
+                options.ClientSecret = Environment.GetEnvironmentVariable("MICROSOFT_CLIENT_SECRET");
+            });
+        
 
 
         // Add services to the container.
@@ -44,6 +63,7 @@ public class Program
         app.UseHttpsRedirection();
         app.UseRouting();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapStaticAssets();
