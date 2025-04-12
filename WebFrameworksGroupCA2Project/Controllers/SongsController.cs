@@ -235,7 +235,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "ArtistName", song.ArtistId);
-            return View(song);
+            return View(songDto);
         }
 
         // GET: Songs/Delete/5

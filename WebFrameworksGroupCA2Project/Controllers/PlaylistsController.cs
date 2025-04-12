@@ -429,7 +429,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", playlist.UserId);
-            return View(playlist);
+            return View(playlistDto);
         }
 
         // GET: Playlists/Delete/5

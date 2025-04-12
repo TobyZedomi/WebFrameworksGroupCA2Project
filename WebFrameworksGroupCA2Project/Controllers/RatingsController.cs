@@ -104,7 +104,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
             }
             ViewData["SongId"] = new SelectList(_context.Song, "Id", "SongName", rating.SongId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", rating.UserId);
-            return View(rating);
+            return View(ratingDTO);
         }
 
         // GET: Ratings/Edit/5

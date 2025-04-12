@@ -256,7 +256,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(artist);
+            return View(artistDto);
         }
 
         // GET: Artists/Delete/5
