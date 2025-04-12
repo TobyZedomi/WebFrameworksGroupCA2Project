@@ -24,5 +24,7 @@ namespace WebFrameworksGroupCA2Project.DTOs
         public IFormFile? ImageFile { get; set; }
 
         public List<Song>? Song { get; set; }
+
+        public List<Vinyl>? Vinyl { get; set; }
     }
 }

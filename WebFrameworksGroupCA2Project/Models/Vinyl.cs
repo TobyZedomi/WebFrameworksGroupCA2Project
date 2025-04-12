@@ -11,7 +11,7 @@ namespace WebFrameworksGroupCA2Project.Models
 
         [RegularExpression(@"^[A-Z0-9]+[a-zA-Z0-9\s]*$", ErrorMessage = "Vinyl Name must Start with a capital Letter or number. Numbers and letters only, 30 characters maximum"), Required, StringLength(30)]
 
-        public string VinylName { get; set; }
+        public string? VinylName { get; set; }
 
         [Display(Name = "DateOfRelease"), DataType(DataType.Date)]
         public DateTime DateOfRelease { get; set; }
@@ -25,6 +25,8 @@ namespace WebFrameworksGroupCA2Project.Models
         public Artist? Artist { get; set; }
 
         public Stock? Stock { get; set; }
+        public List<CartInfo>? CartInfos { get; set; }
+
 
     }
 }

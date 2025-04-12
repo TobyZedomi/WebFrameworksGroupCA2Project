@@ -88,6 +88,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
         {
             if (User.IsInRole("Admin"))
             {
+                ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "ArtistName");
                 return View();
 
             }
