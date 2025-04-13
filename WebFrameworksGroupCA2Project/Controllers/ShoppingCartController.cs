@@ -136,8 +136,6 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
                 totalPrice = (decimal)(totalPrice + item.Quantity * (decimal?)item.Vinyl.ListPrice);
 
-           
-
                 orderItems.Add(new OrderItems
 
                 {
