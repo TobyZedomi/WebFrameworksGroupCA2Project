@@ -5,27 +5,82 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Playlist Details</h1>
 
-<div>
-    <h4>Playlist</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PlaylistName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PlaylistName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StatusPrivate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StatusPrivate)
-        </dd>
-    </dl>
+<div class="d-flex mb-4">
+    <!-- Playlist Image -->
+    <div>
+        <img src="~/images/@Model.ImageFileName" alt="@Model.PlaylistName"
+             class="img-thumbnail"
+             style="width: 200px; height: 200px; object-fit: cover;" />
+    </div>
+
+    <!-- Playlist Info -->
+    <div class="ms-4">
+        <h2>@Model.PlaylistName</h2>
+        <p><strong>Private:</strong> @Model.StatusPrivate</p>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+@if (Model.PlaylistSongs != null && Model.PlaylistSongs.Any())
+{
+    <h3>Songs in this Playlist</h3>
+
+    <ul class="list-group">
+        @{
+            var index = 1;
+        }
+        @foreach (var playlistSong in Model.PlaylistSongs)
+        {
+            var song = playlistSong.Song;
+            var artist = song?.Artist;
+
+            <li class="list-group-item d-flex justify-content-between align-items-center song-item">
+                <!-- Song Link -->
+                <a asp-action="Details" asp-controller="Songs" asp-route-id="@song?.Id">
+                    <div>
+                        <strong>@index.</strong> @song?.SongName
+                    </div>
+                </a>
+                <a asp-action="Details" asp-controller="Artists" asp-route-id="@song?.ArtistId" class="artist-details">
+                    <div class="text-muted">@artist?.ArtistName</div>
+                </a>
+                
+                <div>
+                    <a>Release date: @song!.DateOfRelease.ToShortDateString()</a>
+                </div>
+            </li>
+            index++;
+        }
+    </ul>
+}
+else
+{
+    <p>This playlist has no songs yet.</p>
+}
+
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a> |
+    <a asp-action="Index" class="btn btn-link">Back to List</a>
 </div>
+
+
+
+    <style>
+        .song-item {
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .song-item:hover {
+            background-color: #f0f0f0; /* Light gray color on hover */
+            transform: scale(1.008); /* Slightly scale up the song item */
+            cursor: pointer;
+        }
+
+        .song-item a.stretched-link {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+

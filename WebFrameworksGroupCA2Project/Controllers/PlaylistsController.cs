@@ -66,21 +66,27 @@ namespace WebFrameworksGroupCA2Project.Controllers
             var userid = _userManager.GetUserId(HttpContext.User);
 
             var playlist = await _context.Playlist
-                .Include(p => p.AppUser).Where(x => x.UserId == userid)
+                .Include(p => p.AppUser)
+                .Include(p => p.PlaylistSongs)
+                    .ThenInclude( p => p.Song)
+                        .ThenInclude(p => p.Artist)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            
+            if (playlist == null)
+            {
+                return NotFound();
+            }
 
             PlaylistGetDTO playlistDto = new PlaylistGetDTO()
             {
                 Id = playlist.Id,
                 PlaylistName = playlist.PlaylistName,
                 StatusPrivate = playlist.StatusPrivate,
+                ImageFileName = playlist.ImageFileName,
+                PlaylistSongs = playlist.PlaylistSongs
             };
 
-            if (playlist == null)
-            {
-                return NotFound();
-            }
-
+            
             return View(playlistDto);
         }
 

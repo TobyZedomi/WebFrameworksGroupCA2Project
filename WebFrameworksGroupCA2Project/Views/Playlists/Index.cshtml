@@ -41,25 +41,24 @@
     @foreach (var item in Model) {
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <div>
-                <!-- Image with fixed size using Bootstrap utilities -->
                 <img src="/images/@item.ImageFileName" class="rounded-3" alt="@item.PlaylistName" width="60" height="60"/>
                 <h5>@Html.DisplayFor(modelItem => item.PlaylistName)</h5>
             </div>
             <div class="button-group">
                 <!-- Buttons with icons instead of text and tooltips -->
-                <a class="btn btn-danger btn-sm" asp-action="GetAllSongsInPlaylist" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="View Songs">
+                <a class="btn btn-sm" asp-action="GetAllSongsInPlaylist" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="View Songs">
                     <i class="fas fa-music"></i>
                 </a>
-                <a class="btn btn-warning btn-sm" asp-action="CreatePlaylistSong" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Add Song">
+                <a class="btn btn-sm" asp-action="CreatePlaylistSong" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Add Song">
                     <i class="fas fa-plus-circle"></i>
                 </a>
-                <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Edit Playlist">
+                <a class="btn btn-sm" asp-action="Edit" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Edit Playlist">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a class="btn btn-success btn-sm" asp-action="Details" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="View Details">
+                <a class="btn btn-sm" asp-action="Details" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="View Details">
                     <i class="fas fa-info-circle"></i>
                 </a>
-                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Delete Playlist">
+                <a class="btn btn-sm" asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Delete Playlist">
                     <i class="fas fa-trash-alt"></i>
                 </a>
             </div>
@@ -67,7 +66,7 @@
     }
 </ul>
 
-<!-- Initialize Bootstrap tooltips -->
+<!-- Initialize Bootstrap tooltips (Bootstrap enforces to do this) -->
 @section Scripts {
     <script>
         // Enable tooltips on page load
