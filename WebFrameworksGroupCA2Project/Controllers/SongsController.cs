@@ -42,7 +42,9 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                songs = songs.Where(s => s.SongName!.ToUpper().Contains(searchString.ToUpper()));
+                songs = songs
+                    .Include(s => s.Artist)
+                    .Where(s => s.SongName!.ToUpper().Contains(searchString.ToUpper()));
             }
 
 
