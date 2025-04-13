@@ -60,7 +60,9 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
             HttpContext.Session.Set("Cart", cartItems);
 
-            TempData["CartMessage"] = $"{vinylToAdd.VinylName} added to cart "; /// writing temp data
+            /// writing temp data
+
+            TempData["CartMessage"] = $"{vinylToAdd.VinylName} vinyl added to cart "; 
 
             return RedirectToAction("ViewCart");
         }
@@ -93,7 +95,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
             var itemToRemove = cartItems.FirstOrDefault(item => item.Vinyl.Id == id);
 
             /// writing temp data
-            TempData["CartMessage"] = $"{itemToRemove.Vinyl.VinylName} removed from cart ";
+            TempData["CartMessage"] = $"{itemToRemove.Vinyl.VinylName} vinyl removed from cart ";
 
 
             if (itemToRemove != null) {

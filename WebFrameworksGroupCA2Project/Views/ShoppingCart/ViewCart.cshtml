@@ -28,7 +28,7 @@
             <tr>
                 <td>@item.Vinyl.VinylName</td>
                 <td>@item.Vinyl.VinylInfo</td>
-                <td>@item.Vinyl.ListPrice</td>
+                <td>€@item.Vinyl.ListPrice</td>
                 <td>@item.Quantity</td>
                 <td>@((item.Vinyl.ListPrice * item.Quantity).ToString("C"))</td>
                 <input type="hidden" value="@item.Vinyl.Id" />
@@ -49,5 +49,7 @@
             <td></td>
     </tbody>
 </table>
-<a class="btn btn-success" asp-controller="ShoppingCart" asp-action="PurchaseItems">Purchase</a>
+<a class="btn btn-success" asp-controller="Vinyls" asp-action="Index">Go Back to Vinyl Store</a>
+
+<a class="btn btn-success" asp-controller="ShoppingCart" asp-action="PurchaseItems">Purchase Items</a>
                
