@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebFrameworksGroupCA2Project.Data;
@@ -22,7 +23,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
             this.environment = environment;
         }
 
-        
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> ViewPurchase()
         {
 

@@ -73,9 +73,16 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
                 var result = await userManager.CreateAsync(user, model.Password!);
 
+                var User = new[] { "User" };
+
+
+                await userManager.AddToRolesAsync(user, User);
+
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, false);
+
+                    
 
 
                     return RedirectToAction("Index", "Home");
@@ -135,6 +142,14 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 var createResult = await userManager.CreateAsync(user);
                 if (createResult.Succeeded)
                 {
+
+
+                    var User = new[] { "User" };
+
+
+                    await userManager.AddToRolesAsync(user, User);
+
+
                     await userManager.AddLoginAsync(user, info);
                     await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
