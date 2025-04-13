@@ -14,7 +14,7 @@ using WebFrameworksGroupCA2Project.Models;
 namespace WebFrameworksGroupCA2Project.Controllers
 {
 
-    [Authorize]
+   // [Authorize]
     public class PlaylistsController : Controller
     {
         private readonly WebFrameworksGroupCA2ProjectContext _context;
@@ -91,6 +91,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
         }
 
         // GET: Playlists/Create
+
+        [Authorize(Roles = "User, Admin")]
         public IActionResult Create()
         {
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
@@ -102,6 +104,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> Create(PlaylistPostDTO playlistDto)
         {
             if (playlistDto.ImageFile == null)
@@ -143,6 +147,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
 
         // GET: PlaylistSongs/CreatePlaylistSong
+        [Authorize(Roles = "User, Admin")]
         public IActionResult CreatePlaylistSong()
         {
             ViewData["PlaylistId"] = new SelectList(_context.Playlist, "Id", "PlaylistName");
@@ -215,6 +220,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
 
         // GET: PlaylistSongs/Edit/5
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> EditPlaylistSong(int? id)
         {
             if (id == null)
@@ -236,8 +242,11 @@ namespace WebFrameworksGroupCA2Project.Controllers
         // POST: PlaylistSongs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        [Authorize(Roles = "User, Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+     
         public async Task<IActionResult> EditPlaylistSong(int id, [Bind("Id,PlaylistId,SongId")] PlaylistSong playlistSong)
         {
             if (id != playlistSong.Id)
@@ -276,6 +285,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
          */
 
         // GET: PlaylistSongs/Delete/5
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> DeletePlaylistSong(int? id)
         {
             if (id == null)
@@ -296,6 +306,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
         }
 
         // POST: PlaylistSongs/Delete/5
+        [Authorize(Roles = "User, Admin")]
         [HttpPost, ActionName("DeletePlaylistSong")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePlaylistSongConfirmed(int id)
@@ -333,6 +344,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
 
         // GET: Playlists/Edit/5
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -375,6 +387,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> Edit(int id, PlaylistPutDTO playlistDto)
         {
 
@@ -439,6 +452,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
         }
 
         // GET: Playlists/Delete/5
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -462,6 +476,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
         // POST: Playlists/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var playlist = await _context.Playlist.FindAsync(id);

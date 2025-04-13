@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebFrameworksGroupCA2.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-   
+
 </head>
 <body>
 
@@ -19,7 +19,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Music</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -33,10 +33,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Songs" asp-action="Index">Songs</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Playlists" asp-action="Index">Playlist</a>
-                        </li>
+                        @if (User.IsInRole("Admin") || User.IsInRole("User"))
+                        {
                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Playlists" asp-action="Index">Playlist</a>
+                            </li>
+                        }else{
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Playlists" asp-action="GetAllPlaylistInTheSystem" asp-action="Index">Playlist</a>
+                            </li>
+                        }
+                        <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Vinyls" asp-action="Index">Vinyl Store</a>
                             </li>
                             <li class="nav-item">

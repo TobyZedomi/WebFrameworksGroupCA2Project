@@ -14,7 +14,7 @@ using WebFrameworksGroupCA2Project.Models;
 namespace WebFrameworksGroupCA2Project.Controllers
 {
 
-    [Authorize]
+   // [Authorize]
     public class SongsController : Controller
     {
         private readonly WebFrameworksGroupCA2ProjectContext _context;

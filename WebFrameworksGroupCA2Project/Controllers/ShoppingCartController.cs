@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebFrameworksGroupCA2Project.Data;
@@ -36,6 +37,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
             return View();
         }
 
+        [Authorize(Roles = "User, Admin")]
         public IActionResult AddToCart(int id)
         {
             var vinylToAdd = _context.Vinyl.Find(id);
@@ -68,7 +70,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
             return RedirectToAction("ViewCart");
         }
 
-
+        [Authorize(Roles = "User, Admin")]
         public IActionResult ViewCart()
         {
 
@@ -86,7 +88,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
         }
 
 
-
+        [Authorize(Roles = "User, Admin")]
         public IActionResult RemoveItem(int id)
         {
 
@@ -118,8 +120,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
             return RedirectToAction("ViewCart");
         }
-
-       
+        [Authorize(Roles = "User, Admin")]
         public IActionResult PurchaseItems()
         {
             var cartItems = HttpContext.Session.Get<List<ShoppingCartItem>>("Cart") ?? new List<ShoppingCartItem>();
@@ -165,8 +166,6 @@ namespace WebFrameworksGroupCA2Project.Controllers
             // clear cart
 
         HttpContext.Session.Set("Cart", new List<ShoppingCartItem>());
-
-         
 
             return RedirectToAction("CheckoutSuccess", "ShoppingCart");
         }
