@@ -10,6 +10,8 @@ public class Program
     public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        builder.Services.AddDistributedMemoryCache();
+        builder.Services.AddSession();
         
         // Load environment variables
         Env.Load();
@@ -51,6 +53,8 @@ public class Program
         builder.Services.AddControllersWithViews();
 
         var app = builder.Build();
+
+        app.UseSession();
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
