@@ -21,8 +21,8 @@ namespace WebFrameworksGroupCA2Project.Data
         public DbSet<WebFrameworksGroupCA2Project.Models.Playlist> Playlist { get; set; } = default!;
         public DbSet<WebFrameworksGroupCA2Project.Models.PlaylistSong> PlaylistSong { get; set; } = default!;
         public DbSet<WebFrameworksGroupCA2Project.Models.Rating> Rating { get; set; } = default!;
-        public DbSet<WebFrameworksGroupCA2Project.Models.Vinyl> Vinyl { get; set; } = default!;
-        public DbSet<WebFrameworksGroupCA2Project.Models.Stock> Stock { get; set; } = default!;
+
+        public DbSet<WebFrameworksGroupCA2Project.Models.Purchase> Purchases { get; set; } = default!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -175,7 +175,7 @@ namespace WebFrameworksGroupCA2Project.Data
 
 
             modelBuilder.Entity<Vinyl>().HasData(
-               
+
                 new Vinyl()
                 {
                     Id = 1,
@@ -233,49 +233,12 @@ namespace WebFrameworksGroupCA2Project.Data
                 );
 
 
-            modelBuilder.Entity<Stock>().HasData(
 
-                new Stock()
-                {
-                    Id = 1,
-                    Quantity = 50,
-                    VinylId = 1
-                },
-
-                new Stock()
-                {
-                    Id = 2,
-                    Quantity = 5,
-                    VinylId = 2
-                },
-
-                new Stock()
-                {
-                    Id = 3,
-                    Quantity = 50,
-                    VinylId = 3
-                },
-
-                new Stock()
-                {
-                    Id = 4,
-                    Quantity = 50,
-                    VinylId = 4
-                },
-
-                new Stock()
-                {
-                    Id = 5,
-                    Quantity = 10,
-                    VinylId = 5
-                }
-
-                );
 
             base.OnModelCreating(modelBuilder);
         }
-        public DbSet<WebFrameworksGroupCA2Project.Models.ShoppingCart> ShoppingCart { get; set; } = default!;
-        public DbSet<WebFrameworksGroupCA2Project.Models.CartInfo> CartInfo { get; set; } = default!;
+        public DbSet<WebFrameworksGroupCA2Project.Models.Vinyl> Vinyl { get; set; } = default!;
+       
        
 
     }

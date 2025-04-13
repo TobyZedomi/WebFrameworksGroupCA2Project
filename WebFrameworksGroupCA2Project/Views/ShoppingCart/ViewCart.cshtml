@@ -1,0 +1,53 @@
+﻿@model ShoppingCartViewModel
+
+
+<div class="text-center">
+    <h1 style="font-weight: bold;">
+      Shopping Cart
+    </h1>
+    <h2 style="font-weight: bold; color: green">@(ViewBag.CartMessage)</h2>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Vinyl Name</th>
+            <th>Vinyl Info</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>SubTotal</th>
+            <th></th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.CartItems)
+        {
+            <tr>
+                <td>@item.Vinyl.VinylName</td>
+                <td>@item.Vinyl.VinylInfo</td>
+                <td>@item.Vinyl.ListPrice</td>
+                <td>@item.Quantity</td>
+                <td>@((item.Vinyl.ListPrice * item.Quantity).ToString("C"))</td>
+                <input type="hidden" value="@item.Vinyl.Id" />
+                 <td>
+                     <a asp-controller="ShoppingCart" asp-action="RemoveItem" asp-route-id="@item.Vinyl.Id" class="btn btn-danger">Remove</a>
+                </td>
+              
+                  
+            </tr>
+        }
+
+<tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total:</td>
+            <td>@Model.TotalPrice?.ToString("C")</td>
+            <td></td>
+    </tbody>
+</table>
+<a class="btn btn-success" asp-controller="ShoppingCart" asp-action="PurchaseItems">Purchase</a>
+               

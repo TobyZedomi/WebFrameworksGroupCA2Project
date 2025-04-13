@@ -1,0 +1,12 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> signInManager
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <p style="color: white; font-weight: bold;">You have successfully made a purchase @User.Identity!.Name!</p>
+
+    <h2 style="font-weight: bold; color: green">@(ViewBag.CartPurchase)</h2>
+</div>

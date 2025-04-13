@@ -3,6 +3,12 @@
 
 <ul class="navbar-nav">
 
+    <li class="nav-item">
+        <a class="nav-item" asp-area="" asp-controller="ShoppingCart" asp-action="ViewCart" class="btn btn-outline-danger btn-sm" style="margin-right: 30px">
+            Cart
+        </a>
+    </li>
+
     @if (signInManager.IsSignedIn(User))
     {
 
