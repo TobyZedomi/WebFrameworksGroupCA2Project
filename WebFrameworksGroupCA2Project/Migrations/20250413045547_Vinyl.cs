@@ -8,27 +8,31 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebFrameworksGroupCA2Project.Migrations
 {
     /// <inheritdoc />
-    public partial class VinylandStockSeeding : Migration
+    public partial class Vinyl : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Stock",
+                name: "Vinyl",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    VinylId = table.Column<int>(type: "int", nullable: true)
+                    VinylName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    DateOfRelease = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ListPrice = table.Column<double>(type: "float", nullable: false),
+                    VinylInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageFileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ArtistId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Stock", x => x.Id);
+                    table.PrimaryKey("PK_Vinyl", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Stock_Vinyl_VinylId",
-                        column: x => x.VinylId,
-                        principalTable: "Vinyl",
+                        name: "FK_Vinyl_Artist_ArtistId",
+                        column: x => x.ArtistId,
+                        principalTable: "Artist",
                         principalColumn: "Id");
                 });
 
@@ -44,56 +48,17 @@ namespace WebFrameworksGroupCA2Project.Migrations
                     { 5, 5, new DateTime(1973, 6, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "ZiggyStardust.jpg", 20.0, "The most popular album by the artist David Bowie", "Ziggy Stardust" }
                 });
 
-            migrationBuilder.InsertData(
-                table: "Stock",
-                columns: new[] { "Id", "Quantity", "VinylId" },
-                values: new object[,]
-                {
-                    { 1, 50, 1 },
-                    { 2, 5, 2 },
-                    { 3, 50, 3 },
-                    { 4, 50, 4 },
-                    { 5, 10, 5 }
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Stock_VinylId",
-                table: "Stock",
-                column: "VinylId",
-                unique: true,
-                filter: "[VinylId] IS NOT NULL");
+                name: "IX_Vinyl_ArtistId",
+                table: "Vinyl",
+                column: "ArtistId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Stock");
-
-            migrationBuilder.DeleteData(
-                table: "Vinyl",
-                keyColumn: "Id",
-                keyValue: 1);
-
-            migrationBuilder.DeleteData(
-                table: "Vinyl",
-                keyColumn: "Id",
-                keyValue: 2);
-
-            migrationBuilder.DeleteData(
-                table: "Vinyl",
-                keyColumn: "Id",
-                keyValue: 3);
-
-            migrationBuilder.DeleteData(
-                table: "Vinyl",
-                keyColumn: "Id",
-                keyValue: 4);
-
-            migrationBuilder.DeleteData(
-                table: "Vinyl",
-                keyColumn: "Id",
-                keyValue: 5);
+                name: "Vinyl");
         }
     }
 }

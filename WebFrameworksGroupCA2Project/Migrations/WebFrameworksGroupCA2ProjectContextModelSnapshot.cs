@@ -319,35 +319,6 @@ namespace WebFrameworksGroupCA2Project.Migrations
                         });
                 });
 
-            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.CartInfo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ShoppingCartId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("UnitPrice")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("VinylId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ShoppingCartId");
-
-                    b.HasIndex("VinylId");
-
-                    b.ToTable("CartInfo");
-                });
-
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Playlist", b =>
                 {
                     b.Property<int>("Id")
@@ -401,6 +372,38 @@ namespace WebFrameworksGroupCA2Project.Migrations
                     b.ToTable("PlaylistSong");
                 });
 
+            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Purchase", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("PurchaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("VinylId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VinylId");
+
+                    b.ToTable("Purchases");
+                });
+
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Rating", b =>
                 {
                     b.Property<int>("Id")
@@ -428,29 +431,6 @@ namespace WebFrameworksGroupCA2Project.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Rating");
-                });
-
-            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.ShoppingCart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
-                    b.ToTable("ShoppingCart");
                 });
 
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Song", b =>
@@ -540,61 +520,6 @@ namespace WebFrameworksGroupCA2Project.Migrations
                             ImageFileName = "starman.jpg",
                             SongDescription = "David Bowie at the peak of his music career with a life changing song.",
                             SongName = "Starman"
-                        });
-                });
-
-            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Stock", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("VinylId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VinylId")
-                        .IsUnique()
-                        .HasFilter("[VinylId] IS NOT NULL");
-
-                    b.ToTable("Stock");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Quantity = 50,
-                            VinylId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Quantity = 5,
-                            VinylId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Quantity = 50,
-                            VinylId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Quantity = 50,
-                            VinylId = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Quantity = 10,
-                            VinylId = 5
                         });
                 });
 
@@ -737,21 +662,6 @@ namespace WebFrameworksGroupCA2Project.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.CartInfo", b =>
-                {
-                    b.HasOne("WebFrameworksGroupCA2Project.Models.ShoppingCart", "ShoppingCart")
-                        .WithMany("CartInfos")
-                        .HasForeignKey("ShoppingCartId");
-
-                    b.HasOne("WebFrameworksGroupCA2Project.Models.Vinyl", "Vinyl")
-                        .WithMany("CartInfos")
-                        .HasForeignKey("VinylId");
-
-                    b.Navigation("ShoppingCart");
-
-                    b.Navigation("Vinyl");
-                });
-
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Playlist", b =>
                 {
                     b.HasOne("WebFrameworksGroupCA2Project.Models.AppUser", "AppUser")
@@ -778,6 +688,23 @@ namespace WebFrameworksGroupCA2Project.Migrations
                     b.Navigation("Song");
                 });
 
+            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Purchase", b =>
+                {
+                    b.HasOne("WebFrameworksGroupCA2Project.Models.AppUser", "AppUser")
+                        .WithMany("Purchases")
+                        .HasForeignKey("UserId");
+
+                    b.HasOne("WebFrameworksGroupCA2Project.Models.Vinyl", "Vinyl")
+                        .WithMany()
+                        .HasForeignKey("VinylId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Vinyl");
+                });
+
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Rating", b =>
                 {
                     b.HasOne("WebFrameworksGroupCA2Project.Models.Song", "Song")
@@ -794,15 +721,6 @@ namespace WebFrameworksGroupCA2Project.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.ShoppingCart", b =>
-                {
-                    b.HasOne("WebFrameworksGroupCA2Project.Models.AppUser", "AppUser")
-                        .WithOne("ShoppingCarts")
-                        .HasForeignKey("WebFrameworksGroupCA2Project.Models.ShoppingCart", "UserId");
-
-                    b.Navigation("AppUser");
-                });
-
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Song", b =>
                 {
                     b.HasOne("WebFrameworksGroupCA2Project.Models.Artist", "Artist")
@@ -811,15 +729,6 @@ namespace WebFrameworksGroupCA2Project.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Artist");
-                });
-
-            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Stock", b =>
-                {
-                    b.HasOne("WebFrameworksGroupCA2Project.Models.Vinyl", "Vinyl")
-                        .WithOne("Stock")
-                        .HasForeignKey("WebFrameworksGroupCA2Project.Models.Stock", "VinylId");
-
-                    b.Navigation("Vinyl");
                 });
 
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Vinyl", b =>
@@ -835,9 +744,9 @@ namespace WebFrameworksGroupCA2Project.Migrations
                 {
                     b.Navigation("Playlists");
 
-                    b.Navigation("Ratings");
+                    b.Navigation("Purchases");
 
-                    b.Navigation("ShoppingCarts");
+                    b.Navigation("Ratings");
                 });
 
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Artist", b =>
@@ -852,23 +761,11 @@ namespace WebFrameworksGroupCA2Project.Migrations
                     b.Navigation("PlaylistSongs");
                 });
 
-            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.ShoppingCart", b =>
-                {
-                    b.Navigation("CartInfos");
-                });
-
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Song", b =>
                 {
                     b.Navigation("PlaylistSongs");
 
                     b.Navigation("Ratings");
-                });
-
-            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Vinyl", b =>
-                {
-                    b.Navigation("CartInfos");
-
-                    b.Navigation("Stock");
                 });
 #pragma warning restore 612, 618
         }

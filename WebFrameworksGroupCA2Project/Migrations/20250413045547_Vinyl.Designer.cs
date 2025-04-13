@@ -12,7 +12,7 @@ using WebFrameworksGroupCA2Project.Data;
 namespace WebFrameworksGroupCA2Project.Migrations
 {
     [DbContext(typeof(WebFrameworksGroupCA2ProjectContext))]
-    [Migration("20250412131126_Vinyl")]
+    [Migration("20250413045547_Vinyl")]
     partial class Vinyl
     {
         /// <inheritdoc />
@@ -528,6 +528,58 @@ namespace WebFrameworksGroupCA2Project.Migrations
                     b.HasIndex("ArtistId");
 
                     b.ToTable("Vinyl");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ArtistId = 1,
+                            DateOfRelease = new DateTime(1968, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageFileName = "EL.jpg",
+                            ListPrice = 30.0,
+                            VinylInfo = "The third studio album by the artist Jimi Hnedrix",
+                            VinylName = "Electric Ladyland"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ArtistId = 2,
+                            DateOfRelease = new DateTime(2015, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageFileName = "tpab.jpg",
+                            ListPrice = 30.0,
+                            VinylInfo = "The third studio album by the artist Kendrick Lamar",
+                            VinylName = "To Pimp A Butterfly"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ArtistId = 3,
+                            DateOfRelease = new DateTime(2015, 11, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageFileName = "30.jpg",
+                            ListPrice = 20.0,
+                            VinylInfo = "The comeback studio album by the artist Adele",
+                            VinylName = "30"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ArtistId = 4,
+                            DateOfRelease = new DateTime(1984, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageFileName = "pr.jpg",
+                            ListPrice = 40.0,
+                            VinylInfo = "The most popular album by the artist Prince",
+                            VinylName = "Purple Rain"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ArtistId = 5,
+                            DateOfRelease = new DateTime(1973, 6, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageFileName = "ZiggyStardust.jpg",
+                            ListPrice = 20.0,
+                            VinylInfo = "The most popular album by the artist David Bowie",
+                            VinylName = "Ziggy Stardust"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
