@@ -7,14 +7,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using WebFrameworksGroupCA2Project.Data;
 using WebFrameworksGroupCA2Project.DTOs;
 using WebFrameworksGroupCA2Project.Models;
 
 namespace WebFrameworksGroupCA2Project.Controllers
 {
-
     [Authorize]
     public class VinylsController : Controller
     {
