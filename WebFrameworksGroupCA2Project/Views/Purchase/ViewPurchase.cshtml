@@ -1,0 +1,46 @@
+﻿@model IEnumerable<WebFrameworksGroupCA2Project.Models.Purchase>
+@model IEnumerable<WebFrameworksGroupCA2Project.Models.Purchase>
+
+<div class="text-center">
+    <h1 style="font-weight: bold;">
+        Order History
+    </h1>
+</div>
+
+
+
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+          
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PurchaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+

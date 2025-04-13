@@ -12,8 +12,8 @@ using WebFrameworksGroupCA2Project.Data;
 namespace WebFrameworksGroupCA2Project.Migrations
 {
     [DbContext(typeof(WebFrameworksGroupCA2ProjectContext))]
-    [Migration("20250413070642_AddedPurchases")]
-    partial class AddedPurchases
+    [Migration("20250413120000_OrderItemTableandPurchase")]
+    partial class OrderItemTableandPurchase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -322,6 +322,35 @@ namespace WebFrameworksGroupCA2Project.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.OrderItems", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("PricePerUnit")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PurchaseId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VinylId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PurchaseId");
+
+                    b.HasIndex("VinylId");
+
+                    b.ToTable("OrderItems");
+                });
+
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Playlist", b =>
                 {
                     b.Property<int>("Id")
@@ -386,23 +415,15 @@ namespace WebFrameworksGroupCA2Project.Migrations
                     b.Property<DateTime?>("PurchaseDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("Quantity")
-                        .HasColumnType("int");
-
                     b.Property<decimal?>("Total")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("VinylId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("VinylId");
 
                     b.ToTable("Purchases");
                 });
@@ -665,6 +686,23 @@ namespace WebFrameworksGroupCA2Project.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.OrderItems", b =>
+                {
+                    b.HasOne("WebFrameworksGroupCA2Project.Models.Purchase", "Purchase")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("PurchaseId");
+
+                    b.HasOne("WebFrameworksGroupCA2Project.Models.Vinyl", "Vinyl")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("VinylId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Purchase");
+
+                    b.Navigation("Vinyl");
+                });
+
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Playlist", b =>
                 {
                     b.HasOne("WebFrameworksGroupCA2Project.Models.AppUser", "AppUser")
@@ -697,15 +735,7 @@ namespace WebFrameworksGroupCA2Project.Migrations
                         .WithMany("Purchases")
                         .HasForeignKey("UserId");
 
-                    b.HasOne("WebFrameworksGroupCA2Project.Models.Vinyl", "Vinyl")
-                        .WithMany()
-                        .HasForeignKey("VinylId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("AppUser");
-
-                    b.Navigation("Vinyl");
                 });
 
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Rating", b =>
@@ -764,11 +794,21 @@ namespace WebFrameworksGroupCA2Project.Migrations
                     b.Navigation("PlaylistSongs");
                 });
 
+            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Purchase", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Song", b =>
                 {
                     b.Navigation("PlaylistSongs");
 
                     b.Navigation("Ratings");
+                });
+
+            modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Vinyl", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }

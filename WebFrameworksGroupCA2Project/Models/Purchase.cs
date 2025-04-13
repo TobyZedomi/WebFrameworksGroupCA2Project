@@ -8,12 +8,6 @@ namespace WebFrameworksGroupCA2Project.Models
         [Key]
         public int Id { get; set; }
 
-        public int VinylId { get; set; }
-
-        public Vinyl Vinyl { get; set; }
-
-        public int? Quantity { get; set; }
-
         public DateTime? PurchaseDate{ get; set; }
 
         public decimal? Total {  get; set; }
@@ -21,6 +15,8 @@ namespace WebFrameworksGroupCA2Project.Models
         public string? UserId { get; set; }
         [ForeignKey("UserId")]
         public AppUser? AppUser { get; set; }
+
+       public List<OrderItems>? OrderItems { get; set; }
 
     }
 }

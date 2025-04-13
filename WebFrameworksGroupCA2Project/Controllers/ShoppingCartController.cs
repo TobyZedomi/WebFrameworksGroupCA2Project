@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebFrameworksGroupCA2Project.Data;
+using WebFrameworksGroupCA2Project.DTOs;
 using WebFrameworksGroupCA2Project.Models;
 
 namespace WebFrameworksGroupCA2Project.Controllers
@@ -125,25 +126,37 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
             var userid = _userManager.GetUserId(HttpContext.User);
 
+
+            List<OrderItems> orderItems = new List<OrderItems>();
+
+            decimal totalPrice = 0;
+            
             foreach (var item in cartItems)
             {
-                // save each item as a purchase
 
-                _context.Purchases.Add(new Purchase
+                totalPrice = (decimal)(totalPrice + item.Quantity * (decimal?)item.Vinyl.ListPrice);
+
+           
+
+                orderItems.Add(new OrderItems
+
                 {
-
-                    VinylId = item.Vinyl.Id,
                     Quantity = item.Quantity,
-                    PurchaseDate = DateTime.Now,
-                    Total = (decimal?)(item.Vinyl.ListPrice * item.Quantity),
-                    UserId = userid
+                    PricePerUnit = (int?)(decimal?)item.Vinyl.ListPrice,
+                    VinylId = item.Vinyl.Id
                 });
-
-                /// writing temp data
-
-                TempData["CartPurchase"] = $"{item.Vinyl.VinylName} was purchased with a total price of {(decimal?)(item.Vinyl.ListPrice * item.Quantity)}"; 
-
             }
+
+            Purchase purchase = new Purchase()
+            {
+                PurchaseDate = DateTime.Now,
+                Total = totalPrice,
+                UserId = userid,
+                OrderItems = orderItems
+            };
+
+            _context.Purchases.Add(purchase);
+
 
 
             // save chanegs to the database
@@ -153,9 +166,9 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
             // clear cart
 
-            HttpContext.Session.Set("Cart", new List<ShoppingCartItem>());
+        HttpContext.Session.Set("Cart", new List<ShoppingCartItem>());
 
-            ViewBag.CartPurchase = TempData["CartPurchase"]; //reading temp data
+         
 
             return RedirectToAction("CheckoutSuccess", "ShoppingCart");
         }

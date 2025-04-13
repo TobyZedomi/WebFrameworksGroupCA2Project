@@ -24,6 +24,8 @@ namespace WebFrameworksGroupCA2Project.Data
 
         public DbSet<WebFrameworksGroupCA2Project.Models.Purchase> Purchases { get; set; } = default!;
 
+        public DbSet<WebFrameworksGroupCA2Project.Models.OrderItems> OrderItems { get; set; } = default!;
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

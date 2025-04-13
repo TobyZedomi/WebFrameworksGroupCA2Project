@@ -82,7 +82,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 Genre = artist.Genre,
                 BirthCountry = artist.BirthCountry,
                 Overview = artist.Overview,
-                //ImageFileName = artist.ImageFileName,
+                ImageFileName = artist.ImageFileName,
             };
 
             if (artist == null)
