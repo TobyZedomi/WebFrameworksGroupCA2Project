@@ -28,13 +28,11 @@ namespace WebFrameworksGroupCA2Project.Controllers
         }
 
         // GET: Vinyls
-        public async Task<IActionResult> Index(double listPrice, string searchString)
+        [HttpGet]
+        public async Task<IActionResult> Index(double? minPrice, double? maxPrice, string searchString)
         {
 
-            if (_context.Vinyl == null)
-            {
-                return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
-            }
+            
 
             // Use LINQ to get list of genres.
             IQueryable<double> vinylQuery = from a in _context.Vinyl
@@ -48,10 +46,16 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 vinyls = vinyls.Where(s => s.VinylName!.ToUpper().Contains(searchString.ToUpper()));
             }
 
-            if (!listPrice.Equals(0))
+            if (minPrice.HasValue)
             {
-                vinyls = vinyls.Where(x => x.ListPrice == listPrice);
+                vinyls = vinyls.Where(v => v.ListPrice >= minPrice);
             }
+
+            if (maxPrice.HasValue)
+            {
+                vinyls = vinyls.Where(v => v.ListPrice <= maxPrice);
+            }
+            
 
             var vinylVM = new VinylViewModel
             {

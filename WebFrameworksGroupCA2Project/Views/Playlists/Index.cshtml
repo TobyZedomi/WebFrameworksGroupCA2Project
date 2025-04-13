@@ -45,7 +45,6 @@
                 <h5>@Html.DisplayFor(modelItem => item.PlaylistName)</h5>
             </div>
             <div class="button-group">
-                <!-- Buttons with icons instead of text and tooltips -->
                 <a class="btn btn-sm" asp-action="GetAllSongsInPlaylist" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="View/Edit Songs">
                     <i class="fas fa-music"></i>
                 </a>
@@ -69,7 +68,7 @@
 <!-- Initialize Bootstrap tooltips (Bootstrap enforces to do this) -->
 @section Scripts {
     <script>
-        // Enable tooltips on page load
+
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl);
