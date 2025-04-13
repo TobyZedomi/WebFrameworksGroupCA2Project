@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<WebFrameworksGroupCA2Project.Models.Playlist>
-
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> signInManager
 @{
     ViewData["Title"] = "Index";
 }
@@ -14,7 +15,9 @@
 
 <div class="button-group">
 <p>
+        @if (User.IsInRole("Admin") || User.IsInRole("User")){
     <a class="btn btn-primary" asp-action="Index">View Only Your Playlist</a>
+        }
 </p>
 </div>
 
