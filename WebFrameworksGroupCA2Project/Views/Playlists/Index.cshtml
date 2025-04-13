@@ -6,48 +6,74 @@
     ViewData["Title"] = "Index";
 }
 
-<link rel="stylesheet" href="~/css/playlistIndex.css" asp-append-version="true" />
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <title>Playlists</title>
+</head>
+<link rel="stylesheet" href="~/css/playlistIndex.css" asp-append-version="true"/>
 
-<div class="text-center">
-<h1 style="font-weight: bold;">
-  Playlist created by  @User.Identity!.Name
-</h1>
+<!-- Header -->
+<div class="text-center mb-5">
+    <h1 class="fw-bold">
+        Playlist created by @User.Identity!.Name
+    </h1>
 </div>
 
-<div class="button-group">
-<p>
-    <a class="btn btn-primary" asp-action="Create">Create a New Playlist</a>
-</p>
-
-<p>
-    <a class="btn btn-primary" asp-action="GetAllPlaylistInTheSystem">View All Public Playlist</a>
-</p>
-
+<!-- Button Group -->
+<div class="d-flex justify-content-center mb-4">
+    <p class="m-2">
+        <a class="btn btn-primary btn-lg" asp-action="Create" data-bs-toggle="tooltip" title="Create a New Playlist">
+            <i class="fas fa-plus"></i> Create a New Playlist
+        </a>
+    </p>
+    <p class="m-2">
+        <a class="btn btn-secondary btn-lg" asp-action="GetAllPlaylistInTheSystem" data-bs-toggle="tooltip" title="View All Public Playlists">
+            <i class="fas fa-eye"></i> View All Public Playlist
+        </a>
+    </p>
 </div>
 
+<!-- Validation Summary -->
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<div class="card-container">
-    @foreach (var item in Model)
-    {
-
-        <div class="card">
-            <img src="/images/@item.ImageFileName" />
-            <div class="card-content">
-                <h3> @Html.DisplayFor(modelItem => item.PlaylistName)</h3>
-
-
-                <a class="btn btn-danger" style="font-size: 12px;" asp-action="GetAllSongsInPlaylist" asp-route-id="@item.Id">View Songs</a> 
-                <a class="btn btn-danger" style="font-size: 12px;" asp-action="CreatePlaylistSong" asp-route-id="@item.Id">Add Song</a> 
-                <a class="btn btn-danger" style="font-size: 12px;" asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
-                <a class="btn btn-danger" style="font-size: 12px; margin-top: 2px;" asp-action="Details" asp-route-id="@item.Id">Details</a> 
-                <a class="btn btn-danger" style="font-size: 12px;" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+<!-- Playlist List -->
+<ul class="list-group">
+    @foreach (var item in Model) {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <!-- Image with fixed size using Bootstrap utilities -->
+                <img src="/images/@item.ImageFileName" class="rounded-3" alt="@item.PlaylistName" width="60" height="60"/>
+                <h5>@Html.DisplayFor(modelItem => item.PlaylistName)</h5>
             </div>
-            <div class="card-footer" style="background-color: #f0f0f0; font-weight: bold; margin: auto;">
-                <small class="text-muted">
-                   StatusPrivate: @Html.DisplayFor(modelItem => item.StatusPrivate)
-                </small>
+            <div class="button-group">
+                <!-- Buttons with icons instead of text and tooltips -->
+                <a class="btn btn-danger btn-sm" asp-action="GetAllSongsInPlaylist" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="View Songs">
+                    <i class="fas fa-music"></i>
+                </a>
+                <a class="btn btn-warning btn-sm" asp-action="CreatePlaylistSong" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Add Song">
+                    <i class="fas fa-plus-circle"></i>
+                </a>
+                <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Edit Playlist">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a class="btn btn-success btn-sm" asp-action="Details" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="View Details">
+                    <i class="fas fa-info-circle"></i>
+                </a>
+                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Delete Playlist">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
             </div>
-        </div>
+        </li>
     }
-</div>
+</ul>
+
+<!-- Initialize Bootstrap tooltips -->
+@section Scripts {
+    <script>
+        // Enable tooltips on page load
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+}
