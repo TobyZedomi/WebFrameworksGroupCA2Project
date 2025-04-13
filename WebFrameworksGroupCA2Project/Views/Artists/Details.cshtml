@@ -10,14 +10,14 @@
 
 <style>
     .transparent-bg {
-        background-color: rgba(84, 79, 79, 0.64); 
+        background-color: rgba(255, 255, 255, 0.88); 
         padding: 40px; 
-        border-radius: 8px; 
+        border-radius: 8px;
     }
 </style>
 
 <head>
-    <!-- Add Font Awesome CDN -->
+    <!-- Font Awesome CDN -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 
@@ -31,22 +31,22 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <h1 class="fw-bold mb-4">@Model.ArtistName</h1>
+                <h1 class="fw-bold mb-4 text-black">@Model.ArtistName</h1>
                 <dl class="row">
-                    <dt class="col-sm-3">
+                    <dt class="col-sm-3 text-black">
                         <i class="fas fa-music"></i> Genre:
                     </dt>
-                    <dd class="col-sm-9 fw-normal">@Model.Genre</dd>
+                    <dd class="col-sm-9 fw-normal text-black">@Model.Genre</dd>
 
-                    <dt class="col-sm-3">
+                    <dt class="col-sm-3 text-black">
                         <i class="fas fa-globe-americas"></i> Born in:
                     </dt>
-                    <dd class="col-sm-9 fw-normal">@Model.BirthCountry</dd>
+                    <dd class="col-sm-9 fw-normal text-black">@Model.BirthCountry</dd>
 
-                    <dt class="col-sm-3">
+                    <dt class="col-sm-3 text-black">
                         <i class="fas fa-info-circle"></i> Overview:
                     </dt>
-                    <dd class="col-sm-9 fw-normal">@Model.Overview</dd>
+                    <dd class="col-sm-9 fw-normal text-black">@Model.Overview</dd>
                 </dl>
             </div>
         </div>

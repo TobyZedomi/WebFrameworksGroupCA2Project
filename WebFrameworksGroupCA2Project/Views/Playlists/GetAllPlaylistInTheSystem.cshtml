@@ -1,38 +1,82 @@
 ﻿@model IEnumerable<WebFrameworksGroupCA2Project.Models.Playlist>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<AppUser> signInManager
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "All Public Playlists";
 }
 
-<link rel="stylesheet" href="~/css/playlistIndex.css" asp-append-version="true" />
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
 
+<style>
+    .playlist-list {
+        display: flex;
+        flex-direction: column;
+    }
 
+    .playlist-item {
+        background-color: #f8f9fa;
+        transition: background-color 0.2s ease;
+    }
 
-<div class="text-center">
-<h1 style="font-weight: bold;">All Public Playlist</h1>
-</div>
+    .playlist-item:hover {
+        background-color: #e9ecef;
+    }
 
-<div class="button-group">
-<p>
-        @if (User.IsInRole("Admin") || User.IsInRole("User")){
-    <a class="btn btn-primary" asp-action="Index">View Only Your Playlist</a>
-        }
-</p>
-</div>
+    .playlist-thumb {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+    }
 
+</style>
 
-<div class="card-container">
-    @foreach (var item in Model)
+<link rel="stylesheet" href="~/css/playlistListView.css" asp-append-version="true" />
+
+<div class="container my-5">
+    <div class="text-center mb-4">
+        <h1 class="fw-bold">All Public Playlists</h1>
+    </div>
+
+    @if (User.IsInRole("Admin") || User.IsInRole("User"))
     {
-
-        <div class="card">
-            <img src="/images/@item.ImageFileName" />
-            <div class="card-content">
-                <h3> @Html.DisplayFor(modelItem => item.PlaylistName)</h3>
-                <a class="btn btn-danger" style="font-size: 12px;" asp-action="GetAllSongsInPlaylist2" asp-route-id="@item.Id">View Songs</a>
-            </div>
-            
+        <div class="text-center mb-4">
+            <a class="btn btn-primary" asp-action="Index">View Only Your Playlist</a>
         </div>
     }
+
+    <div class="playlist-list">
+        @foreach (var item in Model)
+        {
+            <div class="playlist-item d-flex align-items-center p-3 mb-3 shadow-sm rounded-3">
+                <img src="/images/@item.ImageFileName"
+                     alt="@item.PlaylistName"
+                     class="playlist-thumb rounded"
+                     width="60" height="60"
+                     style="object-fit: cover;" />
+
+                <div class="flex-grow-1 ms-3">
+                    <h5 class="mb-1">@item.PlaylistName</h5>
+                    <small class="text-muted">Created by @item.AppUser!.Name</small>
+                </div>
+
+                <div class="ms-auto d-flex gap-2">
+                    <a class="btn btn-sm btn-outline-secondary" asp-action="Details" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="View Details">
+                        <i class="fas fa-info-circle"></i>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+}
