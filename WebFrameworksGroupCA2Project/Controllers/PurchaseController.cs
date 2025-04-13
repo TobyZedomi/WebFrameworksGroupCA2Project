@@ -28,7 +28,11 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
             var userid = _userManager.GetUserId(HttpContext.User);
 
-            var purchaseByUser = _context.Purchases.Include(p => p.AppUser).Include(p => p.OrderItems).Where(x => x.UserId == userid);
+            var purchaseByUser = _context.Purchases
+                .Include(p => p.AppUser)
+                .Include(p => p.OrderItems)
+                .ThenInclude(v => v.Vinyl)
+                .Where(x => x.UserId == userid);
 
             return View(await purchaseByUser.ToListAsync());
         }
