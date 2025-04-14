@@ -197,11 +197,30 @@ namespace WebFrameworksGroupCA2Project.Controllers
         public async Task<IActionResult> GetAllSongsInPlaylist(int? id)
         {
 
-            var playlist = await _context.Playlist.FindAsync(id);
+            
+            var playlist = await _context.Playlist
+                .Include(p => p.AppUser)
+                .Include(p => p.PlaylistSongs)
+                .ThenInclude( p => p.Song)
+                .ThenInclude(p => p.Artist)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-
-            var webFrameworksGroupCA2ProjectContext = _context.PlaylistSong.Include(p => p.Playlist).Include(p => p.Song).Where(p1 => p1.PlaylistId == playlist.Id);
-            return View(await webFrameworksGroupCA2ProjectContext.ToListAsync());
+            
+            if (playlist == null)
+            {
+                return NotFound();
+            }
+            
+            PlaylistGetDTO playlistDto = new PlaylistGetDTO()
+            {
+                Id = playlist.Id,
+                PlaylistName = playlist.PlaylistName,
+                StatusPrivate = playlist.StatusPrivate,
+                ImageFileName = playlist.ImageFileName,
+                PlaylistSongs = playlist.PlaylistSongs
+            };
+            
+            return View(playlistDto);
         }
 
 
@@ -214,7 +233,12 @@ namespace WebFrameworksGroupCA2Project.Controllers
             var playlist = await _context.Playlist.FindAsync(id);
 
 
-            var webFrameworksGroupCA2ProjectContext = _context.PlaylistSong.Include(p => p.Playlist).Include(p => p.Song).Where(p1 => p1.PlaylistId == playlist.Id);
+            var webFrameworksGroupCA2ProjectContext = _context.PlaylistSong
+                .Include(p => p.Playlist)
+                .Include(p => p.Song)
+                .ThenInclude(s => s.Artist)
+                .Where(p1 => p1.PlaylistId == playlist.Id);
+            
             return View(await webFrameworksGroupCA2ProjectContext.ToListAsync());
         }
 

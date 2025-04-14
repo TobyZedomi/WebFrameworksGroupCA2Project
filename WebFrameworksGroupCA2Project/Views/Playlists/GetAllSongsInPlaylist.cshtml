@@ -1,50 +1,89 @@
-﻿@model IEnumerable<WebFrameworksGroupCA2Project.Models.PlaylistSong>
+﻿@using WebFrameworksGroupCA2Project.DTOs
+@model PlaylistGetDTO
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<div class="text-center">
-<h1 style="font-weight: bold;">Songs For Playlist</h1>
+<style>
+    .transparent-bg {
+        background-color: rgba(255, 255, 255, 0.88);
+        padding: 40px;
+        border-radius: 8px;
+    }
+</style>
+
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<div class="container mt-5">
+    <div class="transparent-bg p-4 rounded shadow">
+        <div class="row">
+            <div class="col-md-12 text-center mb-4">
+                <h1 class="font-weight-bold text-dark">@Model.PlaylistName</h1>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <a class="btn btn-primary" asp-action="Index"><i class="fa fa-arrow-left"></i> Go Back to View Your Playlists</a>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-6 text-center">
+                <img src="~/images/@Model.ImageFileName"
+                     alt="@Model.PlaylistName"
+                     class="img-fluid rounded shadow-sm"
+                     style="max-width: 250px; height: auto; object-fit: cover; border-radius: 8px;"/>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-light">
+                    <tr>
+                        <th>
+                            Artist
+                        </th>
+                        <th>
+                            Song Name
+                        </th>
+                        <th class="text-center">
+                            <i class="fa fa-cog"></i> Actions
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.PlaylistSongs)
+                    {
+                        <tr>
+                            <td>
+                                @item.Song!.Artist!.ArtistName
+                            </td>
+                            <td>
+                                @item.Song!.SongName
+                            </td>
+                            <td class="text-center">
+                                <a class="mx-2 text-black" asp-action="DeletePlaylistSong" asp-route-id="@item.Id"
+                                   data-bs-toggle="tooltip" title="Delete song"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
-<p>
-    <a class="btn btn-primary" asp-action="Index">Go Back to View Only Your Playlist</a>
-</p>
-
-<!---<div asp-validation-summary="ModelOnly" class="text-danger"></div>-->
-
-<table class="table table-hover table-bordered">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Playlist)Name
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Song)
-            </th>
-            <th>
-
-</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Playlist.PlaylistName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Song.SongName)
-                </td>
-                <td>
-                    <a class="btn btn-danger" style="font-size: 12px;" asp-action="EditPlaylistSong" asp-route-id="@item.Id">Edit</a>
-                    <a class="btn btn-danger" style="font-size: 12px;" asp-action="DetailsPlaylistSong" asp-route-id="@item.Id">Details</a>
-                    <a class="btn btn-danger" style="font-size: 12px;" asp-action="DeletePlaylistSong" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-
-    </tbody>
-</table>
+@section Scripts {
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+}
