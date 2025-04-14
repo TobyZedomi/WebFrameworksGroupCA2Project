@@ -6,57 +6,45 @@ using WebFrameworksGroupCA2Project.Data;
 using WebFrameworksGroupCA2Project.DTOs;
 using WebFrameworksGroupCA2Project.Models;
 
-namespace WebFrameworksGroupCA2Project.Controllers
-{
-    public class ShoppingCartController : Controller
-    {
-
-
+namespace WebFrameworksGroupCA2Project.Controllers {
+    public class ShoppingCartController : Controller {
         private readonly WebFrameworksGroupCA2ProjectContext _context;
         private List<ShoppingCartItem> _cartItems;
         private readonly UserManager<AppUser> _userManager;
         private readonly IWebHostEnvironment environment;
 
 
-        public ShoppingCartController(WebFrameworksGroupCA2ProjectContext context, UserManager<AppUser> userManager, IWebHostEnvironment environment)
-        {
+        public ShoppingCartController(WebFrameworksGroupCA2ProjectContext context, UserManager<AppUser> userManager,
+            IWebHostEnvironment environment) {
             _context = context;
             _cartItems = new List<ShoppingCartItem>();
             _userManager = userManager;
             this.environment = environment;
         }
 
-        public IActionResult Index()
-        {
+        public IActionResult Index() {
             return View();
         }
 
-        public IActionResult CheckoutSuccess()
-        {
-
+        public IActionResult CheckoutSuccess() {
             return View();
         }
 
         [Authorize(Roles = "User, Admin")]
-        public IActionResult AddToCart(int id)
-        {
+        public IActionResult AddToCart(int id) {
             var vinylToAdd = _context.Vinyl.Find(id);
 
             var cartItems = HttpContext.Session.Get<List<ShoppingCartItem>>("Cart") ?? new List<ShoppingCartItem>();
 
             var existingCartItem = cartItems.FirstOrDefault(item => item.Vinyl.Id == id);
 
-            if (existingCartItem != null)
-            {
+            if (existingCartItem != null) {
                 existingCartItem.Quantity++;
             }
-            else
-            {
-                cartItems.Add(new ShoppingCartItem
-                {
+            else {
+                cartItems.Add(new ShoppingCartItem {
                     Vinyl = vinylToAdd,
                     Quantity = 1
-
                 });
             }
 
@@ -65,19 +53,16 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
             /// writing temp data
 
-            TempData["CartMessage"] = $"{vinylToAdd.VinylName} vinyl added to cart "; 
+            TempData["CartMessage"] = $"{vinylToAdd.VinylName} vinyl added to cart ";
 
             return RedirectToAction("ViewCart");
         }
 
         [Authorize(Roles = "User, Admin")]
-        public IActionResult ViewCart()
-        {
-
+        public IActionResult ViewCart() {
             var cartItems = HttpContext.Session.Get<List<ShoppingCartItem>>("Cart") ?? new List<ShoppingCartItem>();
 
-            var cartViewModel = new ShoppingCartViewModel
-            {
+            var cartViewModel = new ShoppingCartViewModel {
                 CartItems = cartItems,
                 TotalPrice = (decimal?)cartItems.Sum(item => item.Vinyl.ListPrice * item.Quantity)
             };
@@ -89,10 +74,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
 
         [Authorize(Roles = "User, Admin")]
-        public IActionResult RemoveItem(int id)
-        {
-
-
+        public IActionResult RemoveItem(int id) {
             var cartItems = HttpContext.Session.Get<List<ShoppingCartItem>>("Cart") ?? new List<ShoppingCartItem>();
 
             var itemToRemove = cartItems.FirstOrDefault(item => item.Vinyl.Id == id);
@@ -102,17 +84,12 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
 
             if (itemToRemove != null) {
-                if(itemToRemove.Quantity > 1)
-                {
+                if (itemToRemove.Quantity > 1) {
                     itemToRemove.Quantity--;
-
                 }
-                else
-                {
-                  
+                else {
                     cartItems.Remove(itemToRemove);
                 }
-
             }
 
             HttpContext.Session.Set("Cart", cartItems);
@@ -120,9 +97,39 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
             return RedirectToAction("ViewCart");
         }
+
+
+        [HttpPost]
         [Authorize(Roles = "User, Admin")]
-        public IActionResult PurchaseItems()
-        {
+        public IActionResult UpdateQuantity(int id, int quantity) {
+            var cartItems = HttpContext.Session.Get<List<ShoppingCartItem>>("Cart") ?? new List<ShoppingCartItem>();
+
+            var itemToUpdate = cartItems.FirstOrDefault(item => item.Vinyl.Id == id);
+
+            if (itemToUpdate != null) {
+                itemToUpdate.Quantity = quantity;
+            }
+
+            HttpContext.Session.Set("Cart", cartItems);
+
+            return RedirectToAction("ViewCart");
+        }
+        
+        [Authorize(Roles = "User, Admin")]
+        public IActionResult ClearCart() {
+            var cartItems = HttpContext.Session.Get<List<ShoppingCartItem>>("Cart") ?? new List<ShoppingCartItem>();
+
+            cartItems.Clear();
+
+            HttpContext.Session.Set("Cart", cartItems);
+
+            TempData["CartMessage"] = "All items removed from cart";
+
+            return RedirectToAction("ViewCart");
+        }
+
+        [Authorize(Roles = "User, Admin")]
+        public IActionResult PurchaseItems() {
             var cartItems = HttpContext.Session.Get<List<ShoppingCartItem>>("Cart") ?? new List<ShoppingCartItem>();
 
             var userid = _userManager.GetUserId(HttpContext.User);
@@ -131,23 +138,18 @@ namespace WebFrameworksGroupCA2Project.Controllers
             List<OrderItems> orderItems = new List<OrderItems>();
 
             decimal totalPrice = 0;
-            
-            foreach (var item in cartItems)
-            {
 
+            foreach (var item in cartItems) {
                 totalPrice = (decimal)(totalPrice + item.Quantity * (decimal?)item.Vinyl.ListPrice);
 
-                orderItems.Add(new OrderItems
-
-                {
+                orderItems.Add(new OrderItems {
                     Quantity = item.Quantity,
                     PricePerUnit = (int?)(decimal?)item.Vinyl.ListPrice,
                     VinylId = item.Vinyl.Id
                 });
             }
 
-            Purchase purchase = new Purchase()
-            {
+            Purchase purchase = new Purchase() {
                 PurchaseDate = DateTime.Now,
                 Total = totalPrice,
                 UserId = userid,
@@ -157,7 +159,6 @@ namespace WebFrameworksGroupCA2Project.Controllers
             _context.Purchases.Add(purchase);
 
 
-
             // save chanegs to the database
 
             _context.SaveChanges();
@@ -165,13 +166,9 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
             // clear cart
 
-        HttpContext.Session.Set("Cart", new List<ShoppingCartItem>());
+            HttpContext.Session.Set("Cart", new List<ShoppingCartItem>());
 
             return RedirectToAction("CheckoutSuccess", "ShoppingCart");
         }
-
-
-
-
     }
 }
