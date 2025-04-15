@@ -348,6 +348,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
             _context.Add(userVinylRequest);
             await _context.SaveChangesAsync();
 
+            TempData["RequestVinyl"] = $"{userVinylRequest.VinylName} vinyl has been requested to be added";
+
             return RedirectToAction(nameof(Index));
         }
 

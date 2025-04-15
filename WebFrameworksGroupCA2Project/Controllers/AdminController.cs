@@ -87,27 +87,5 @@ namespace WebFrameworksGroupCA2Project.Controllers
         }
     }
 
-
-
-        /*
-        public IActionResult StoreIndex()
-        {
-            var cartItems = HttpContext.Session.Get<List<ShoppingCartItem>>("Cart") ?? new List<ShoppingCartItem>();
-
-            var cartViewModel = new ShoppingCartViewModel
-            {
-                CartItems = cartItems,
-                TotalPrice = (decimal?)cartItems.Sum(item => item.Vinyl.ListPrice * item.Quantity)
-            };
-
-            ViewBag.RequestMessage = TempData["RequestMessage"]; //reading temp data
-
-            return View(cartViewModel);
-        }
-        */
-
-
-
-
     }
 
