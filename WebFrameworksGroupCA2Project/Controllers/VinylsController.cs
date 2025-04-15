@@ -310,6 +310,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> CreateVinylRequest(UserVinylRequestPostDTO userVinylRequestDto)
         {
             if (userVinylRequestDto.ImageFile == null)
@@ -358,17 +359,222 @@ namespace WebFrameworksGroupCA2Project.Controllers
         // user can view there request 
 
         // GET: users request 
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> UserVinylRequest()
         {
 
             var userid = _userManager.GetUserId(HttpContext.User);
 
-            var vinylRequestByUser = _context.UserVinylRequest.Include(p => p.AppUser).Include(p => p.Artist).Where(x => x.UserId == userid).Where(x => x.addedToStore == false);
+            var vinylRequestByUser = _context.UserVinylRequest.Include(p => p.AppUser).Include(p => p.Artist).Where(x => x.UserId == userid);
 
             ViewBag.RequestVinyl = TempData["RequestVinyl"]; //reading temp data
 
 
             return View(await vinylRequestByUser.ToListAsync());
         }
+
+
+
+
+        /// user can see details of there vinyl request 
+        /// 
+
+        // GET: UserVinylRequests/Details/5
+        public async Task<IActionResult> UserRequestDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var userVinylRequest = await _context.UserVinylRequest
+                .Include(u => u.AppUser)
+                .Include(u => u.Artist)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (userVinylRequest == null)
+            {
+                return NotFound();
+            }
+
+            return View(userVinylRequest);
+        }
+
+
+        // user can edit vinyl info only if its pending 
+
+
+        // GET: Artists/Edit/5
+        public async Task<IActionResult> UserRequestEdit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var userVinylRequest = await _context.UserVinylRequest.FindAsync(id);
+
+            if(userVinylRequest.addedToStore == true)
+            {
+
+                TempData["RequestVinyl"] = $" Vinyl Request Id {userVinylRequest.Id} with a name of {userVinylRequest.VinylName}: cant be added because its already added to the store";
+
+                return RedirectToAction(nameof(UserVinylRequest));
+            }
+
+
+            UserVinylRequestPutDTO requestDto = new UserVinylRequestPutDTO()
+            {
+                Id = userVinylRequest.Id,
+                VinylName = userVinylRequest.VinylName,
+                DateOfRelease = userVinylRequest.DateOfRelease,
+                VinylInfo = userVinylRequest.VinylInfo,
+                ArtistId = userVinylRequest.ArtistId,
+
+            };
+
+            
+
+            if (userVinylRequest == null)
+            {
+                return NotFound();
+            }
+
+            if (User.IsInRole("User") || User.IsInRole("Admin"))
+            {
+                ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "ArtistName", userVinylRequest.ArtistId);
+                TempData["RequestVinyl"] = $" Vinyl Request ID {userVinylRequest.Id} with a name of {userVinylRequest.VinylName}: has been edited";
+                return View(requestDto);
+
+            }
+
+            return RedirectToAction(nameof(UserVinylRequest));
+
+        }
+
+        // POST: Artists/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UserRequestEdit(int id, UserVinylRequestPutDTO userVinylRequestPutDTO)
+        {
+
+            if (userVinylRequestPutDTO.ImageFile == null)
+            {
+                ModelState.AddModelError("ImageFile", "The Image is required");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(userVinylRequestPutDTO);
+            }
+
+           
+
+            string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            newFileName += Path.GetExtension(userVinylRequestPutDTO.ImageFile!.FileName);
+
+            string imageFullPath = environment.WebRootPath + "/images/" + newFileName;
+            using (var stream = System.IO.File.Create(imageFullPath))
+            {
+                userVinylRequestPutDTO.ImageFile.CopyTo(stream);
+            }
+
+            var userid = _userManager.GetUserId(HttpContext.User);
+
+            UserVinylRequest userVinylRequest = new()
+            {
+                Id = userVinylRequestPutDTO.Id,
+                VinylName = userVinylRequestPutDTO.VinylName,
+                DateOfRelease = userVinylRequestPutDTO.DateOfRelease,
+                VinylInfo = userVinylRequestPutDTO.VinylInfo,
+                ImageFileName = newFileName,
+                addedToStore = false,
+                Status = "Pending",
+                ArtistId = userVinylRequestPutDTO.ArtistId,
+                UserId = userid
+
+            };
+
+
+            if (id != userVinylRequest.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(userVinylRequest);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserVinylRequestExists(userVinylRequest.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(UserVinylRequest));
+            }
+            ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "ArtistName", userVinylRequest.ArtistId);
+            return View(userVinylRequestPutDTO);
+        }
+
+
+
+        // Vinyl Request 
+        
+        public async Task<IActionResult> UserRequestDelete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            
+
+            var userVinylRequest = await _context.UserVinylRequest
+                .Include(u => u.AppUser)
+                .Include(u => u.Artist)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (userVinylRequest == null)
+            {
+                return NotFound();
+            }
+
+
+            TempData["RequestVinyl"] = $" Vinyl Request ID {userVinylRequest.Id} with a name of {userVinylRequest.VinylName} : has been deleted";
+
+            return View(userVinylRequest);
+        }
+
+
+        // POST: UserVinylRequests/Delete/5
+        [HttpPost, ActionName("UserRequestDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UserRequestDelete(int id)
+        {
+            var userVinylRequest = await _context.UserVinylRequest.FindAsync(id);
+            if (userVinylRequest != null)
+            {
+                _context.UserVinylRequest.Remove(userVinylRequest);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(UserVinylRequest));
+        }
+        
+
+        private bool UserVinylRequestExists(int id)
+        {
+            return _context.UserVinylRequest.Any(e => e.Id == id);
+        }
+
     }
 }
