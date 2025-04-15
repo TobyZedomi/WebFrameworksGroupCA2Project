@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebFrameworksGroupCA2Project.Models.UserVinylRequest>
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<AppUser> signInManager
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@User.Identity!.Name Vinyl Request</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VinylName)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Artist)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="/images/@item.ImageFileName" style="width: 70px; length: 100px;"/>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VinylName)
+                </td>
+           
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Artist.ArtistName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
