@@ -298,6 +298,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
         ///
 
         // GET: UserVinylRequests/Create
+        [Authorize(Roles = "User, Admin")]
         public IActionResult CreateVinylRequest()
         {
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
@@ -380,6 +381,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
         /// 
 
         // GET: UserVinylRequests/Details/5
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> UserRequestDetails(int? id)
         {
             if (id == null)
@@ -404,6 +406,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
 
         // GET: Artists/Edit/5
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> UserRequestEdit(int? id)
         {
             if (id == null)
@@ -456,6 +459,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> UserRequestEdit(int id, UserVinylRequestPutDTO userVinylRequestPutDTO)
         {
 
@@ -529,7 +534,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
 
         // Vinyl Request 
-        
+        [Authorize(Roles = "User, Admin")]
+
         public async Task<IActionResult> UserRequestDelete(int? id)
         {
             if (id == null)
@@ -558,6 +564,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
         // POST: UserVinylRequests/Delete/5
         [HttpPost, ActionName("UserRequestDelete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> UserRequestDelete(int id)
         {
             var userVinylRequest = await _context.UserVinylRequest.FindAsync(id);

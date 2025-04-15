@@ -12,19 +12,23 @@
 
 <link rel="stylesheet" href="~/css/playlistIndex.css" asp-append-version="true" />
 
-<div class="d-flex justify-content-center mb-4">
-    <p class="m-2">
-        <a class="btn btn-primary btn-lg" asp-action="CreateVinylRequest" data-bs-toggle="tooltip" title="Create a Vinyl Request">
-            <i class="fas fa-plus"></i> Create a Vinyl Request
-        </a>
-    </p>
+@if (User.IsInRole("Admin") || (User.IsInRole("User")))
+{
 
-    <p class="m-2">
-        <a class="btn btn-primary btn-lg" asp-action="UserVinylRequest" data-bs-toggle="tooltip" title="Create a Vinyl Request">
-            <i class="fas fa-plus"></i> View Your Vinyl Request
-        </a>
-    </p>
-</div>
+    <div class="d-flex justify-content-center mb-4">
+        <p class="m-2">
+            <a class="btn btn-primary btn-lg" asp-action="CreateVinylRequest" data-bs-toggle="tooltip" title="Create a Vinyl Request">
+                <i class="fas fa-plus"></i> Create a Vinyl Request
+            </a>
+        </p>
+
+        <p class="m-2">
+            <a class="btn btn-primary btn-lg" asp-action="UserVinylRequest" data-bs-toggle="tooltip" title="Create a Vinyl Request">
+                <i class="fas fa-plus"></i> View Your Vinyl Request
+            </a>
+        </p>
+    </div>
+}
 
 @if (!string.IsNullOrEmpty(ViewBag.RequestVinyl))
 {
