@@ -9,6 +9,11 @@
 
 <h1>@User.Identity!.Name Vinyl Request</h1>
 
+@if (!string.IsNullOrEmpty(ViewBag.RequestVinyl))
+{
+    <h2 class="font-weight-bold text-success">@ViewBag.RequestVinyl</h2>
+}
+
 
 <table class="table">
     <thead>

@@ -348,9 +348,9 @@ namespace WebFrameworksGroupCA2Project.Controllers
             _context.Add(userVinylRequest);
             await _context.SaveChangesAsync();
 
-            TempData["RequestVinyl"] = $"{userVinylRequest.VinylName} vinyl has been requested to be added";
+            TempData["RequestVinyl"] = $"{userVinylRequest.VinylName} vinyl has been requested to be added to the store";
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(UserVinylRequest));
         }
 
 
@@ -363,7 +363,10 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
             var userid = _userManager.GetUserId(HttpContext.User);
 
-            var vinylRequestByUser = _context.UserVinylRequest.Include(p => p.AppUser).Include(p => p.Artist).Where(x => x.UserId == userid);
+            var vinylRequestByUser = _context.UserVinylRequest.Include(p => p.AppUser).Include(p => p.Artist).Where(x => x.UserId == userid).Where(x => x.addedToStore == false);
+
+            ViewBag.RequestVinyl = TempData["RequestVinyl"]; //reading temp data
+
 
             return View(await vinylRequestByUser.ToListAsync());
         }
