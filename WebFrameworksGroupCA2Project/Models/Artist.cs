@@ -29,6 +29,8 @@ namespace WebFrameworksGroupCA2Project.Models
 
         public List<Vinyl>? Vinyl { get; set; }
 
+        public List<UserVinylRequest>? UserVinylRequests { get; set; }
+
 
     }
 }
