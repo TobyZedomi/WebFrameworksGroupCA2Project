@@ -22,6 +22,9 @@
                
             </th>
             <th>
+               Vinyl Request ID
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.VinylName)
             </th>
            
@@ -43,6 +46,9 @@
                     <img src="/images/@item.ImageFileName" style="width: 70px; length: 100px;"/>
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.VinylName)
                 </td>
            
@@ -53,9 +59,9 @@
                     @Html.DisplayFor(modelItem => item.Artist.ArtistName)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="UserRequestEdit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="UserRequestDetails" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="UserRequestDelete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }

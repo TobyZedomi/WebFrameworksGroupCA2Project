@@ -62,8 +62,10 @@ namespace WebFrameworksGroupCA2Project.Controllers
             
             UserVinylRequest userVinylRequest = new UserVinylRequest()
             {
+               
                 VinylName = vinylToAdd.VinylName,
                 DateOfRelease =vinylToAdd.DateOfRelease,
+                VinylInfo = vinylToAdd.VinylInfo,
                 ImageFileName = vinylToAdd.ImageFileName,
                 addedToStore = true,
                 Status = "ADDED TO STORE",
