@@ -63,6 +63,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 Vinyls = await vinyls.ToListAsync()
             };
 
+            ViewBag.RequestVinyl = TempData["RequestVinyl"]; //reading temp data
+
             return View(vinylVM);
         }
 
@@ -287,6 +289,81 @@ namespace WebFrameworksGroupCA2Project.Controllers
         private bool VinylExists(int id)
         {
             return _context.Vinyl.Any(e => e.Id == id);
+        }
+
+
+
+
+        ////////////////////////////////////////////////////////////////// User can create a vinyl request 
+        ///
+
+        // GET: UserVinylRequests/Create
+        public IActionResult CreateVinylRequest()
+        {
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "ArtistName");
+            return View();
+        }
+
+        // POST: UserVinylRequests/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateVinylRequest(UserVinylRequestPostDTO userVinylRequestDto)
+        {
+            if (userVinylRequestDto.ImageFile == null)
+            {
+                ModelState.AddModelError("ImageFile", "The Image is required");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(userVinylRequestDto);
+            }
+
+            string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            newFileName += Path.GetExtension(userVinylRequestDto.ImageFile!.FileName);
+
+            string imageFullPath = environment.WebRootPath + "/images/" + newFileName;
+            using (var stream = System.IO.File.Create(imageFullPath))
+            {
+                userVinylRequestDto.ImageFile.CopyTo(stream);
+            }
+
+            var userid = _userManager.GetUserId(HttpContext.User);
+
+            UserVinylRequest userVinylRequest = new UserVinylRequest()
+            {
+                VinylName = userVinylRequestDto.VinylName,
+                DateOfRelease = userVinylRequestDto.DateOfRelease,
+                VinylInfo = userVinylRequestDto.VinylInfo,
+                ImageFileName = newFileName,
+                addedToStore = false,
+                Status = "Pending",
+                ArtistId = userVinylRequestDto.ArtistId,
+                UserId = userid
+            };
+
+            _context.Add(userVinylRequest);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+        // user can view there request 
+
+        // GET: users request 
+        public async Task<IActionResult> UserVinylRequest()
+        {
+
+            var userid = _userManager.GetUserId(HttpContext.User);
+
+            var vinylRequestByUser = _context.UserVinylRequest.Include(p => p.AppUser).Include(p => p.Artist).Where(x => x.UserId == userid);
+
+            return View(await vinylRequestByUser.ToListAsync());
         }
     }
 }
