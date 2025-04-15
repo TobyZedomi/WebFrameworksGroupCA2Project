@@ -19,5 +19,7 @@ namespace WebFrameworksGroupCA2Project.Models
 
         public List<Purchase>? Purchases { get; set; }
 
+        public List<UserVinylRequest>? UserVinylRequests { get; set; }
+
     }
 }

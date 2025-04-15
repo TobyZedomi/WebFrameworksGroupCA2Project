@@ -1,0 +1,56 @@
+﻿@using WebFrameworksGroupCA2Project.DTOs
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model UserVinylRequestPostDTO
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create a Vinyl Request</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateVinylRequest" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="VinylName" class="control-label"></label>
+                <input asp-for="VinylName" class="form-control" />
+                <span asp-validation-for="VinylName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfRelease" class="control-label"></label>
+                <input asp-for="DateOfRelease" class="form-control" />
+                <span asp-validation-for="DateOfRelease" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VinylInfo" class="control-label"></label>
+                <textarea asp-for="VinylInfo" class="form-control"></textarea>
+                <span asp-validation-for="VinylInfo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" class="form-control" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArtistId" class="control-label"></label>
+                <select asp-for="ArtistId" class="form-control" asp-items="ViewBag.ArtistId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

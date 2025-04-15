@@ -44,11 +44,17 @@
                             </li>
                         }
                         <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Vinyls" asp-action="Index">Vinyl Store</a>
-                            </li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Vinyls" asp-action="Index">Vinyl Store</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Purchase" asp-action="ViewPurchase">Order History</a>
+                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Purchase" asp-action="ViewPurchase">Order History</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin Controls</a>
                             </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
