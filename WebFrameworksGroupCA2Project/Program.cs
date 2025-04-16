@@ -88,7 +88,7 @@ public class Program
 
         app.MapStaticAssets();
 
-        /*
+        
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute(
@@ -96,13 +96,15 @@ public class Program
                 pattern: "{controller=Home}/{action=Index}/{id?}");
         endpoints.MapRazorPages();
         });
-        */
+        
 
+        /*
         builder.Services.AddRazorPages(options =>
         {
             options.RootDirectory = "/Identity";
             options.Conventions.AuthorizeFolder("/Account/Login");
         });
+        *
 
 
         /*
