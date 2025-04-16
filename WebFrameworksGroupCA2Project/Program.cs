@@ -1,8 +1,10 @@
 using DotNetEnv;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using WebFrameworksGroupCA2Project.Data;
 using WebFrameworksGroupCA2Project.Models;
 
@@ -96,16 +98,18 @@ public class Program
                 pattern: "{controller=Home}/{action=Index}/{id?}");
         endpoints.MapRazorPages();
         });
-        
+
+
+
 
         /*
         builder.Services.AddRazorPages(options =>
         {
-            options.RootDirectory = "/Identity";
-            options.Conventions.AuthorizeFolder("/Account/Login");
+            options.Conventions.AddPageRoute("/Identity/Account/Login", "");
+
         });
         *
-
+        
 
         /*
         app.MapControllerRoute(
