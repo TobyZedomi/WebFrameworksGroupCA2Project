@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<AppUser> signInManager
+@inject UserManager<AppUser> userManager
 
 @{
     ViewData["Title"] = "Home Page";
@@ -7,5 +8,13 @@
 
 <div class="text-center">
     <h1 class="display-4" style="color: white; font-weight: bold;">Welcome</h1>
+    
+    @if (signInManager.IsSignedIn(User)) {
     <p style="color: white; font-weight: bold;">You are logged in @User.Identity!.Name!</p>
+    }
+    else {
+        <p style="color: white; font-weight: bold;">Welcome guest!</p>
+    }
+
+
 </div>

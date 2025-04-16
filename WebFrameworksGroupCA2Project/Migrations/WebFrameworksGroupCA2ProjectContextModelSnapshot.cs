@@ -264,7 +264,7 @@ namespace WebFrameworksGroupCA2Project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Artist");
+                    b.ToTable("Artist", (string)null);
 
                     b.HasData(
                         new
@@ -345,7 +345,7 @@ namespace WebFrameworksGroupCA2Project.Migrations
 
                     b.HasIndex("VinylId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Playlist", b =>
@@ -375,7 +375,7 @@ namespace WebFrameworksGroupCA2Project.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Playlist");
+                    b.ToTable("Playlist", (string)null);
                 });
 
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.PlaylistSong", b =>
@@ -398,7 +398,7 @@ namespace WebFrameworksGroupCA2Project.Migrations
 
                     b.HasIndex("SongId");
 
-                    b.ToTable("PlaylistSong");
+                    b.ToTable("PlaylistSong", (string)null);
                 });
 
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Purchase", b =>
@@ -422,7 +422,7 @@ namespace WebFrameworksGroupCA2Project.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Purchases");
+                    b.ToTable("Purchases", (string)null);
                 });
 
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Rating", b =>
@@ -451,7 +451,7 @@ namespace WebFrameworksGroupCA2Project.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Rating");
+                    b.ToTable("Rating", (string)null);
                 });
 
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Song", b =>
@@ -485,7 +485,7 @@ namespace WebFrameworksGroupCA2Project.Migrations
 
                     b.HasIndex("ArtistId");
 
-                    b.ToTable("Song");
+                    b.ToTable("Song", (string)null);
 
                     b.HasData(
                         new
@@ -585,7 +585,7 @@ namespace WebFrameworksGroupCA2Project.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserVinylRequest");
+                    b.ToTable("UserVinylRequest", (string)null);
                 });
 
             modelBuilder.Entity("WebFrameworksGroupCA2Project.Models.Vinyl", b =>
@@ -621,7 +621,7 @@ namespace WebFrameworksGroupCA2Project.Migrations
 
                     b.HasIndex("ArtistId");
 
-                    b.ToTable("Vinyl");
+                    b.ToTable("Vinyl", (string)null);
 
                     b.HasData(
                         new

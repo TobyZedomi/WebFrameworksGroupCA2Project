@@ -6,9 +6,11 @@ using WebFrameworksGroupCA2Project.Models;
 namespace WebFrameworksGroupCA2Project.Controllers;
 
 
-[Authorize]
+//[Authorize]
 public class HomeController : Controller
 {
+
+    
     private readonly ILogger<HomeController> _logger;
 
     public HomeController(ILogger<HomeController> logger)
@@ -20,6 +22,8 @@ public class HomeController : Controller
     {
         return View();
     }
+
+  
 
     public IActionResult Privacy()
     {
