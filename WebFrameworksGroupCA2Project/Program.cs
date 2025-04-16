@@ -1,5 +1,6 @@
 using DotNetEnv;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WebFrameworksGroupCA2Project.Data;
@@ -10,6 +11,7 @@ public class Program
     public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+      
         builder.Services.AddDistributedMemoryCache();
         builder.Services.AddSession();
         
@@ -19,6 +21,7 @@ public class Program
         builder.Services.AddDbContext<WebFrameworksGroupCA2ProjectContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("WebFrameworksGroupCA2ProjectContext") ?? throw new InvalidOperationException("Connection string 'WebFrameworksGroupCA2ProjectContext' not found.")));
 
+        
         builder.Services.AddIdentity<AppUser, IdentityRole>(
         options =>
 
@@ -32,6 +35,7 @@ public class Program
         .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<WebFrameworksGroupCA2ProjectContext>()
         .AddDefaultTokenProviders();
+        
 
 
         // Add social login providers (Google and Microsoft)
@@ -46,11 +50,23 @@ public class Program
                 options.ClientId = Environment.GetEnvironmentVariable("MICROSOFT_CLIENT_ID");
                 options.ClientSecret = Environment.GetEnvironmentVariable("MICROSOFT_CLIENT_SECRET");
             });
+
+
         
+
 
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
+
+       
+
+        builder.Services.AddSingleton<IEmailSender, EmailSender>();
+        
+
+        builder.Services.AddRazorPages();
+
+
 
         var app = builder.Build();
 
@@ -72,9 +88,28 @@ public class Program
 
         app.MapStaticAssets();
 
+        /*
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+        endpoints.MapRazorPages();
+        });
+        */
+
+        builder.Services.AddRazorPages(options =>
+        {
+            options.RootDirectory = "/Identity";
+            options.Conventions.AuthorizeFolder("/Account/Login");
+        });
+
+
+        /*
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
+        */
 
 
 
@@ -123,7 +158,10 @@ public class Program
                 await userManager.AddToRolesAsync(user, Admin);
             }
         }
+        
 
+
+        app.MapRazorPages();
 
         app.Run();
 
