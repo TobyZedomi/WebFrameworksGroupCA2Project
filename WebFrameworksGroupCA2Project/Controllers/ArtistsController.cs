@@ -61,6 +61,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 Artists = await movies.ToListAsync()
             };
 
+            ViewBag.Artist = TempData["Artist"]; //reading temp data
+
             return View(artistGenreVM);
         }
 
@@ -148,6 +150,9 @@ namespace WebFrameworksGroupCA2Project.Controllers
             };
 
             _context.Add(artist);
+
+            TempData["Artist"] = $"{artist.ArtistName} was added to the system";
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
@@ -242,6 +247,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 try
                 {
                     _context.Update(artist);
+                    TempData["Artist"] = $"{artist.ArtistName} was edited in the system";
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -295,6 +301,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
             if (artist != null)
             {
                 _context.Artist.Remove(artist);
+                TempData["Artist"] = $"{artist.ArtistName} was deleted in the system";
             }
 
             await _context.SaveChangesAsync();

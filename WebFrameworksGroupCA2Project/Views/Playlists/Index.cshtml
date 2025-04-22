@@ -33,6 +33,11 @@
     </p>
 </div>
 
+@if (!string.IsNullOrEmpty(ViewBag.Playlist))
+{
+    <h2 class="font-weight-bold text-success">@ViewBag.Playlist</h2>
+}
+
 <!-- Validation Summary -->
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

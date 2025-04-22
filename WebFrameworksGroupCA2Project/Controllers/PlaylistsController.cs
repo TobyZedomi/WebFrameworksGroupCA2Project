@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebFrameworksGroupCA2Project.Data;
 using WebFrameworksGroupCA2Project.DTOs;
+using WebFrameworksGroupCA2Project.Migrations;
 using WebFrameworksGroupCA2Project.Models;
 
 namespace WebFrameworksGroupCA2Project.Controllers
@@ -37,6 +38,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
             var userid = _userManager.GetUserId(HttpContext.User);
 
             var playlistByUser = _context.Playlist.Include(p => p.AppUser).Where(x => x.UserId == userid);
+
+            ViewBag.Playlist = TempData["Playlist"]; //reading temp data
 
             return View(await playlistByUser.ToListAsync());
         }
@@ -138,6 +141,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
             };
 
             _context.Add(playlist);
+            TempData["Playlist"] = $"The playlist {playlist.PlaylistName} was created";
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
@@ -177,6 +182,14 @@ namespace WebFrameworksGroupCA2Project.Controllers
 
                 _context.Add(playlistSong);
                 await _context.SaveChangesAsync();
+
+               
+                var song = await _context.Song.FindAsync(playlistSong.SongId);
+
+                if (song != null)
+                {
+                    TempData["Playlist"] = $"The song {song.SongName} was added to the playlist {playlist.PlaylistName}";
+                }
 
                 // find a way to redirect this to the get all Songs In Playlist for private playlist
 
@@ -284,6 +297,14 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 {
                     _context.Update(playlistSong);
                     await _context.SaveChangesAsync();
+
+                    var song = await _context.Song.FindAsync(playlistSong.SongId);
+                    var playlist = await _context.Playlist.FindAsync(playlistSong.PlaylistId);
+
+                    if (song != null && playlist != null)
+                    {
+                        TempData["Playlist"] = $" The song {song.SongName} was added to the playlist {playlist.PlaylistName}";
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -339,6 +360,15 @@ namespace WebFrameworksGroupCA2Project.Controllers
             if (playlistSong != null)
             {
                 _context.PlaylistSong.Remove(playlistSong);
+
+                var song = await _context.Song.FindAsync(playlistSong.SongId);
+                var playlist = await _context.Playlist.FindAsync(playlistSong.PlaylistId);
+
+                if (song != null && playlist != null)
+                {
+                    TempData["Playlist"] = $" The song {song.SongName} was deleted from the playlist {playlist.PlaylistName}";
+                }
+
             }
 
             await _context.SaveChangesAsync();
@@ -456,6 +486,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 try
                 {
                     _context.Update(playlist);
+                    TempData["Playlist"] = $"The playlist {playlist.PlaylistName} was edited";
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -507,6 +539,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
             if (playlist != null)
             {
                 _context.Playlist.Remove(playlist);
+                TempData["Playlist"] = $" The playlist {playlist.PlaylistName} was deleted ";
+
             }
 
             await _context.SaveChangesAsync();
