@@ -1,5 +1,6 @@
 ﻿@model WebFrameworksGroupCA2Project.Models.SongArtistNameViewModel
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> userManager
 
@@ -19,6 +20,11 @@
             <a asp-action="Create" class="btn btn-success">+ Add New Song</a>
         }
     </div>
+
+    @if (!string.IsNullOrEmpty(ViewBag.Song))
+    {
+        <h2 class="font-weight-bold text-success">@ViewBag.Song</h2>
+    }
 
     <form asp-controller="Songs" asp-action="Index" method="get" class="row g-2 mb-4 align-items-center">
         <div class="col-md-5">

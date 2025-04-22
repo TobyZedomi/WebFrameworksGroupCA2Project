@@ -54,6 +54,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 Songs = await songs.ToListAsync()
             };
 
+            ViewBag.Song = TempData["Song"]; //reading temp data
+
             return View(songArtistNameVM);
         }
 
@@ -134,6 +136,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
             };
 
             _context.Add(song);
+            TempData["Song"] = $"{song.SongName} was added to the system";
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
@@ -221,6 +225,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 try
                 {
                     _context.Update(song);
+                    TempData["Song"] = $"{song.SongName} was edited in the system";
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -276,6 +282,8 @@ namespace WebFrameworksGroupCA2Project.Controllers
             if (song != null)
             {
                 _context.Song.Remove(song);
+                TempData["Song"] = $"{song.SongName} was deleted in the system";
+
             }
 
             await _context.SaveChangesAsync();
