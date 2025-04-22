@@ -93,7 +93,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
             {
                 VinylName = vinylToAdd.VinylName,
                 DateOfRelease = vinylToAdd.DateOfRelease,
-                ListPrice = 30,
+                ListPrice = vinylToAdd.ListPrice,
                 VinylInfo = vinylToAdd.VinylInfo,
                 ImageFileName = vinylToAdd.ImageFileName,
                 ArtistId = vinylToAdd.ArtistId
@@ -113,6 +113,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 VinylName = vinylToAdd.VinylName,
                 DateOfRelease =vinylToAdd.DateOfRelease,
                 VinylInfo = vinylToAdd.VinylInfo,
+                ListPrice = vinylToAdd.ListPrice,
                 ImageFileName = vinylToAdd.ImageFileName,
                 addedToStore = true,
                 Status = "ADDED TO STORE",

@@ -340,6 +340,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 VinylName = userVinylRequestDto.VinylName,
                 DateOfRelease = userVinylRequestDto.DateOfRelease,
                 VinylInfo = userVinylRequestDto.VinylInfo,
+                ListPrice = userVinylRequestDto.ListPrice,
                 ImageFileName = newFileName,
                 addedToStore = false,
                 Status = "Pending",
@@ -431,6 +432,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 VinylName = userVinylRequest.VinylName,
                 DateOfRelease = userVinylRequest.DateOfRelease,
                 VinylInfo = userVinylRequest.VinylInfo,
+                ListPrice = userVinylRequest.ListPrice,
                 ArtistId = userVinylRequest.ArtistId,
 
             };
@@ -493,6 +495,7 @@ namespace WebFrameworksGroupCA2Project.Controllers
                 VinylName = userVinylRequestPutDTO.VinylName,
                 DateOfRelease = userVinylRequestPutDTO.DateOfRelease,
                 VinylInfo = userVinylRequestPutDTO.VinylInfo,
+                ListPrice = userVinylRequestPutDTO.ListPrice,
                 ImageFileName = newFileName,
                 addedToStore = false,
                 Status = "Pending",
