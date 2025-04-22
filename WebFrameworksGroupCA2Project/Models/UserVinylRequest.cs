@@ -18,6 +18,7 @@ namespace WebFrameworksGroupCA2Project.Models
 
         [DataType(DataType.MultilineText)]
         public string? VinylInfo { get; set; }
+        public double ListPrice { get; set; }
         public string ImageFileName { get; set; }
         public bool addedToStore { get; set; } = false;
         public string? Status { get; set; }
