@@ -1,0 +1,47 @@
+﻿@model IEnumerable<WebFrameworksGroupCA2Project.Models.AppUser>
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> userManager
+
+
+
+<h1>Users In System</h1>
+
+
+@if (!string.IsNullOrEmpty(ViewBag.UserAdmin))
+{
+    <h2 class="font-weight-bold text-success">@ViewBag.UserAdmin</h2>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+
+                <td>
+                    @if ((User.IsInRole("Admin")))
+                    {
+                        <a asp-action="UpdateAdminRights" asp-route-id="@item.Id">Give User Admin Rights</a>
+                    }
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

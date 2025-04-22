@@ -7,9 +7,28 @@
     ViewData["Title"] = "Index";
 }
 
+<link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true" />
+
+<link rel="stylesheet" href="~/css/playlistIndex.css" asp-append-version="true" />
+
+
+
+@if (User.IsInRole("Admin") || (User.IsInRole("User")))
+{
+
+    <div class="d-flex justify-content-center mb-4">
+        <p class="m-2">
+            <a class="btn btn-primary btn-lg" asp-action="AdminRights" data-bs-toggle="tooltip" title="Give Users Admin Rights">
+                <i class="fas fa-plus"></i> All Users In The System
+            </a>
+        </p>
+    </div>
+}
+
 <h1>Vinyl Request from users</h1>
 
 <h2 class="font-weight-bold text-success">@ViewBag.RequestMessage</h2>
+
 
 
 
