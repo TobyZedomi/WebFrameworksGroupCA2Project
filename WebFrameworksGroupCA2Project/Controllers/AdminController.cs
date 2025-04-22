@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebFrameworksGroupCA2Project.Data;
+using WebFrameworksGroupCA2Project.DTOs;
 using WebFrameworksGroupCA2Project.Models;
 
 namespace WebFrameworksGroupCA2Project.Controllers
@@ -32,6 +33,52 @@ namespace WebFrameworksGroupCA2Project.Controllers
             var vinylRequestByUser = _context.UserVinylRequest.Include(p => p.AppUser).Include(p => p.Artist).Where(x => x.addedToStore == false);
 
             return View(await vinylRequestByUser.ToListAsync());
+        }
+
+
+        public async Task< IActionResult> AdminRights()
+        {
+            var usersInSystem = _context.Users;
+
+            ViewBag.UserAdmin = TempData["UserAdmin"]; //reading temp data
+
+
+            return View(await usersInSystem.ToListAsync());
+        }
+
+
+
+        public async Task<IActionResult> UpdateAdminRights(string? id)
+        {
+           
+
+            var role = _context.UserRoles.Find(id, "b5699d79-1152-4e75-a8f1-a166cd46f07e");
+            var user = _context.Users.Find(id);
+
+
+            if (role != null && user != null)
+            {
+
+                _context.UserRoles.Remove(role);
+
+                var Admin = new[] { "Admin" };
+
+
+             await _userManager.AddToRolesAsync(user, Admin);
+
+                TempData["UserAdmin"] = $"  {user.Name} has been upgraded to an admin user";
+
+                await  _context.SaveChangesAsync();
+            }
+            else if (user != null) 
+            {
+                TempData["UserAdmin"] = $"  {user.Name} is already an admin user";
+            }
+
+
+            
+            return RedirectToAction("AdminRights", "Admin");
+
         }
 
 
