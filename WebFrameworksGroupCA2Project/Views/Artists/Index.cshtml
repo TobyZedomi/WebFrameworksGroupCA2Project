@@ -1,5 +1,6 @@
 ﻿@model WebFrameworksGroupCA2Project.Models.ArtistGenreViewModel
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> userManager
 
@@ -19,6 +20,11 @@
             <a asp-action="Create" class="btn btn-success">+ Add New Artist</a>
         }
     </div>
+
+    @if (!string.IsNullOrEmpty(ViewBag.Artist))
+    {
+        <h2 class="font-weight-bold text-success">@ViewBag.Artist</h2>
+    }
 
     <form asp-controller="Artists" asp-action="Index" method="get" class="row g-2 mb-4 align-items-center">
         <div class="col-md-3">
