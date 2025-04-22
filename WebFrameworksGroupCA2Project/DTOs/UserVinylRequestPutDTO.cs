@@ -19,6 +19,8 @@ namespace WebFrameworksGroupCA2Project.DTOs
 
         [DataType(DataType.MultilineText)]
         public string? VinylInfo { get; set; }
+
+        public double ListPrice { get; set; }
         public IFormFile? ImageFile { get; set; }
 
         public bool addedToStore { get; set; } = false;
