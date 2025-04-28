@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebFrameworksGroupCA2Project.Data;
 using System.Linq;
+using WebFrameworksGroupCA2Project.Models;
 
 namespace WebFrameworksGroupCA2Project.Controllers;
 
@@ -35,12 +36,27 @@ public class ApiController : ControllerBase
         }
 
         var query = _context.Vinyl
-            .Where(v => v.VinylName!.Contains(searchString));
+            .Where(v => v.VinylName!.Contains(searchString))
+            .Include(v => v.Artist);
 
         var totalItems = query.Count();
         var vinyls = query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
+            .Select(v => new
+            {
+                v.Id,
+                v.VinylName,
+                v.DateOfRelease,
+                v.ListPrice,
+                v.VinylInfo,
+                v.ImageFileName, 
+                Artist = new
+                {
+                    v.Artist!.Id,
+                    v.Artist.ArtistName
+                }
+            })
             .ToList();
 
         var result = new
@@ -53,6 +69,7 @@ public class ApiController : ControllerBase
 
         return Ok(result);
     }
+
 
     [HttpGet("vinyls/top-sold")]
     public IActionResult GetTopSoldVinyls(int topN = 5)
@@ -157,7 +174,8 @@ public class ApiController : ControllerBase
                 a.Id,
                 a.ArtistName,
                 a.Genre,
-                a.BirthCountry
+                a.BirthCountry,
+                a.Overview
             })
             .ToList();
 
@@ -191,11 +209,14 @@ public class ApiController : ControllerBase
         }
 
         var query = _context.Playlist
-            .Where(p => p.PlaylistName!.Contains(searchString));
+            .Where(p => p.PlaylistName!.Contains(searchString))
+            .Include(p => p.AppUser)
+            .Include(p => p.PlaylistSongs)
+            .ThenInclude(ps => ps.Song)
+            .ThenInclude(s => s.Artist); // Include Song and its Artist
 
         var totalItems = query.Count();
         var playlists = query
-            .Include(p => p.AppUser)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .Select(p => new
@@ -203,7 +224,18 @@ public class ApiController : ControllerBase
                 p.Id,
                 p.PlaylistName,
                 p.StatusPrivate,
-                Creator = p.AppUser!.UserName 
+                Creator = p.AppUser!.UserName,
+                Songs = p.PlaylistSongs!.Select(ps => new
+                {
+                    ps.Song!.Id,
+                    ps.Song.SongName,
+                    Artist = new
+                    {
+                        ps.Song.Artist!.Id,
+                        ps.Song.Artist.ArtistName
+                    }
+                    // Add other relevant song properties
+                }).ToList()
             })
             .ToList();
 
