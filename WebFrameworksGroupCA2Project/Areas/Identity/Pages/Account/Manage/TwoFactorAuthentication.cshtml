@@ -1,5 +1,5 @@
 ﻿@page
-@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Http.Features   
 @model TwoFactorAuthenticationModel
 @{
     ViewData["Title"] = "Two-factor authentication (2FA)";
@@ -60,7 +60,7 @@
         }
         else
         {
-            <p>You have not enabled two factor authentication yet. You should <a asp-page="./EnableAuthenticator">enable 2FA</a>.</p>
+            <p class="text-light" >You have not enabled two factor authentication yet. You should <a asp-page="./EnableAuthenticator">enable 2FA</a>.</p>
         }
     }
     else
